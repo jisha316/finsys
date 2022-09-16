@@ -1,0 +1,103 @@
+{% extends 'app1/base.html' %}
+{% block body %}
+    {% load static %}
+    {% if user.is_authenticated %}
+        <div class="page-content">
+            <div class="card radius-15">
+                <div class="card-body">
+                    <div class="card-title">
+                        <center><h2 class="mb-0">VENDOR</h2></center>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="card radius-15">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-5"></div>
+                        <div class="col-md-3"></div>
+                        <div class="btn-group col-md-2">
+                            <a href="{% url 'addvendor' %}" class="btn btn-outline-info" role="button">New</a>
+                            <button type="button"
+                                    class="btn btn-outline-info dropdown-toggle dropdown-toggle-split"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">All Vendors</a>
+                                <a class="dropdown-item" href="#">Active Vendors</a>
+                                <a class="dropdown-item" href="#">Inactive Vendors</a>
+                                <a class="dropdown-item" href="#">Custome View</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid">
+                        <table class="table table-responsive-md mt-4">
+                            <thead>
+                            <tr>
+                                <th>NAME</th>
+                                <th>COMPANY NAME</th>
+                                <th>EMAIL ID</th>
+                                <th>MOBILE NO</th>
+                                <th>GST TYPE</th>
+                                <th>GSTIN</th>
+                                <th>PAN NO</th>
+                                <th>ACTION</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for v in vndr %}
+                            <tr>
+                                <th>{{ v.firstname }}{{ v.lastname }}</th>
+                                <td>{{ v.companyname }}</td>
+                                <td>{{ v.email }}</td>
+                                <td>{{ v.mobile }}</td>
+                                <td>{{ v.gsttype }}</td>
+                                <td>{{ v.gstin }}</td>
+                                <td>{{ v.panno }}</td>
+                                <td><a href="editcustomer/{{ customer.customerid }}"
+                                       style="color: white; font-size: 15px;"><i class="bx bx-edit">EDIT</i></a><br>
+                                    <a href="deletecustomer/{{ customer.customerid }}"
+                                       style="color:white; font-size: 15px;"><i class="bx bx-trash">DELETE</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks the button, open the modal
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    {% endif %}
+{% endblock %}
