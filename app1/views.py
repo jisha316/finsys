@@ -25677,3 +25677,66 @@ def vendordetails(request):
             return redirect('govendor')
         return render(request,'app1/vendor.html',{'cmp1': cmp1})
     return redirect('/')
+
+@login_required(login_url='regcomp')
+def gopurchaseorder(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        return render(request,'app1/purchaseorder.html',{'cmp1': cmp1})
+    return redirect('gopurchaseorder')
+
+@login_required(login_url='regcomp')
+def addpurchaseorder(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        vndr = vendor.objects.all()
+        return render(request,'app1/addpurchaseorder.html',{'cmp1': cmp1,'vndr':vndr})
+    return redirect('addpurchaseorder')
+
+def getvendordata(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        id = request.GET.get('id')
+        x = id.split()
+        x.append(" ")
+        a = x[0]
+        b = x[1]
+        if x[2] is not None:
+            b = x[1] + " " + x[2]
+            vendobject = vendor.objects.get(firstname=a, lastname=b)
+            list = []
+            dict = {'vendorid': vendobject.vendorid, 'title': vendobject.title, 'firstname': vendobject.firstname,
+                    'lastname': vendobject.lastname, 'companyname': vendobject.companyname, 'gsttype': vendobject.gsttype,
+                    'gstin': vendobject.gstin, 'panno': vendobject.panno, 'email':vendobject.email,'website': vendobject.website,
+                    'mobile': vendobject.mobile, 'street': vendobject.street, 'sourceofsupply':vendobject.sourceofsupply,
+                    'currency':vendobject.currency, 'openingbalance':vendobject.openingbalance, 'paymentterms':vendobject.paymentterms,
+                    'city': vendobject.city, 'state': vendobject.state, 'pincode': vendobject.pincode, 'country': vendobject.country,
+                    'shipstreet': vendobject.shipstreet, 'shipcity': vendobject.shipcity, 'shippincode': vendobject.shippincode,
+                    'shipstate': vendobject.shipstate, 'shipcountry': vendobject.shipcountry}
+            list.append(dict)
+        else:
+            vendorbject = vendor.objects.get(firstname=a, lastname=b)
+            list = []
+            dict = {'vendorid': vendobject.vendorid, 'title': vendobject.title, 'firstname': vendobject.firstname,
+                    'lastname': vendobject.lastname, 'companyname': vendobject.companyname, 'gsttype': vendobject.gsttype,
+                    'gstin': vendobject.gstin, 'panno': vendobject.panno, 'email':vendobject.email, 'website': vendobject.website,
+                    'mobile': vendobject.mobile, 'street': vendobject.street, 'sourceofsupply':vendobject.sourceofsupply,
+                    'currency':vendobject.currency, 'openingbalance':vendobject.openingbalance, 'paymentterms':vendobject.paymentterms,
+                    'city': vendobject.city, 'state': vendobject.state, 'pincode': vendobject.pincode, 'country': vendobject.country,
+                    'shipstreet': vendobject.shipstreet, 'shipcity': vendobject.shipcity, 'shippincode': vendobject.shippincode,
+                    'shipstate': vendobject.shipstate, 'shipcountry': vendobject.shipcountry}
+            list.append(dict)
+        return JsonResponse(json.dumps(list), content_type="application/json", safe=False)
+    return redirect('getvendordata')

@@ -354,5 +354,9 @@ urlpatterns = [
 
     re_path(r'^govendor',views.govendor,name='govendor'),
     re_path(r'^addvendor',views.addvendor,name='addvendor'),
-    re_path(r'^vendordetails',views.vendordetails,name='vendordetails')
+    re_path(r'^vendordetails',views.vendordetails,name='vendordetails'),
+
+    re_path(r'^gopurchaseorder',views.gopurchaseorder,name='gopurchaseorder'),
+    re_path(r'^addpurchaseorder',views.addpurchaseorder,name='addpurchaseorder'),
+    re_path(r'^getvendordata',views.getvendordata,name='getvendordata'),
 ]

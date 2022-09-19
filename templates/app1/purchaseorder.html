@@ -6,7 +6,7 @@
             <div class="card radius-15">
                 <div class="card-body">
                     <div class="card-title">
-                        <center><h2 class="mb-0">VENDOR</h2></center>
+                        <center><h2 class="mb-0">PURCHASE ORDER</h2></center>
                         <hr>
                     </div>
                 </div>
@@ -18,7 +18,7 @@
                         <div class="col-md-5"></div>
                         <div class="col-md-3"></div>
                         <div class="btn-group col-md-2">
-                            <a href="{% url 'addvendor' %}" class="btn btn-outline-info" role="button">New</a>
+                            <a href="{% url 'addpurchaseorder' %}" class="btn btn-outline-info" role="button">New</a>
                             <button type="button"
                                     class="btn btn-outline-info dropdown-toggle dropdown-toggle-split"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,20 +37,21 @@
                         <table class="table table-responsive-md mt-4">
                             <thead>
                             <tr>
-                                <th>NAME</th>
-                                <th>COMPANY NAME</th>
-                                <th>EMAIL ID</th>
-                                <th>MOBILE NO</th>
-                                <th>GST TYPE</th>
-                                <th>GSTIN</th>
-                                <th>PAN NO</th>
-                                <th>ACTION</th>
+                                <th>Date</th>
+                                <th>Branch</th>
+                                <th>Purchase Order Number</th>
+                                <th>Reference</th>
+                                <th>Vendor Name</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                                <th>Expected Delivery Date</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for v in vndr %}
                             <tr>
-                                <th>{{ v.firstname }} {{ v.lastname }}</th>
+                                <th>{{ v.firstname }}{{ v.lastname }}</th>
                                 <td>{{ v.companyname }}</td>
                                 <td>{{ v.email }}</td>
                                 <td>{{ v.mobile }}</td>
