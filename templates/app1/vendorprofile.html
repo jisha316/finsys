@@ -1,0 +1,130 @@
+{% extends 'app1/base.html' %}
+{% block body %}
+    {% load static %}
+
+    <div class="page-content">
+        <div class="card radius-15">
+            <div class="card-body">
+                <div class="card-title">
+                    <center><h3 class="mb-0">VENDOR PROFILE</h3></center>
+                </div>
+                <hr/>
+            </div>
+        </div>
+        <div class="card radius-15" style="background-color: #243e54;">
+            <div class="card-body">
+                <div class="card-title">
+                    <h4 class="mb-0">{{ cmp1.cname }}</h4>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4 p-4">
+                        <img src="https://multichannelmerchant.com/wp-content/uploads/2019/09/stupid-vendor-image-with-scrabble-tiles-feature.jpg"
+                        width="100%" height="100%">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4 mt-3"></div>
+                            <div class="col-md-4 mt-3"><h4><b>PERSONAL INFO</b></h4></div>
+                            <div class="col-md-4 mt-3"></div>
+                            <div class="col-md-3 mt-3">
+                                <label>Title : {{ vndr.title }}</label>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <label>First Name : {{ vndr.firstname }}</label>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <label>Last Name :{{ vndr.lastname }}</label>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <label>Company : {{ vndr.companyname }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>Email : {{ vndr.email }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>Mobile Number : {{ vndr.mobile }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>Website : {{ vndr.website }}</label>
+                            </div>
+                
+                            <div class="col-md-4 mt-3"><h5><b>Billing Address</b></h5></div>
+                            <div class="col-md-4 mt-3"></div>
+                            <div class="col-md-4 mt-3"></div>
+                            <div class="col-md-4 mt-3">
+                                <label>Street : {{ vndr.street }} </label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>City : {{ vndr.city }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>State : {{ vndr.state }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>Pincode : {{ vndr.pincode }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>Country : {{ vndr.country }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3"></div>
+                            <div class="col-md-4 mt-3"><h5><b>Shipping Address</b></h5></div>
+                            <div class="col-md-4 mt-3"></div>
+                            <div class="col-md-4 mt-3"></div>
+            
+                            <div class="col-md-4 mt-3">
+                                <label>Street : {{ vndr.shipstreet }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>City : {{ vndr.shipcity }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>State : {{ vndr.shipstate }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>Pincode : {{ vndr.shippincode }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>Country : {{ vndr.shipcountry }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3"></div>
+                            <div class="col-md-4 mt-3"></div>
+                            <div class="col-md-4 mt-3"><h5><b>GST DETAILS</b></h5></div>
+                            <div class="col-md-4 mt-3"></div>
+                            <div class="col-md-4 mt-3">
+                                <label>GST Type : {{ vndr.gsttype }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>GSTIN : {{ vndr.gstin }}</label>
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <label>Pan Number : {{ vndr.panno }}</label>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <label>Sorce Of Supply : {{ vndr.sourceofsupply }}</label>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <label>Currency : {{ vndr.currency }}</label>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <label>Opening Balance : {{ vndr.openingbalance }}</label>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <label>Payment Terms : {{ vndr.paymentterms }}</label> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <a href="{% url 'goeditvendor' vndr.vendorid %}" class="btn btn-outline-info rounded-pill text-grey w-100 mt-3 mb-3" role="button">
+                                    Edit Profile
+                                </a>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

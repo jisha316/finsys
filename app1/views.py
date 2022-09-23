@@ -1,3 +1,4 @@
+from cmd import IDENTCHARS
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
@@ -25679,6 +25680,56 @@ def vendordetails(request):
     return redirect('/')
 
 @login_required(login_url='regcomp')
+def vendordetails1(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        if request.method=='POST':
+            title=request.POST['title']
+            first_name=request.POST['firstname']
+            last_name=request.POST['lastname']
+            cmpnm=request.POST['company_name']
+            email=request.POST['email']
+            website=request.POST['website']
+            mobile=request.POST['mobile']
+            gsttype=request.POST['gsttype']
+            gstin=request.POST['gstin']
+            panno=request.POST['panno']
+            supply=request.POST['sourceofsupply']
+            currency=request.POST['currency']
+            balance=request.POST['openingbalance']
+            payment=request.POST['paymentterms']
+            street=request.POST['street']
+            city=request.POST['city']
+            state=request.POST['state']
+            pincode=request.POST['pincode']
+            country=request.POST['country']
+            shipstreet=request.POST['shipstreet']
+            shipcity=request.POST['shipcity']
+            shipstate=request.POST['shipstate']
+            shippincode=request.POST['shippincode']
+            shipcountry=request.POST['shipcountry']
+            
+            vndr = vendor(title=title, firstname=first_name,
+                            lastname=last_name, companyname= cmpnm,
+                            gsttype=gsttype, gstin=gstin, 
+                            panno=panno, email=email,sourceofsupply=supply,currency=currency,
+                            website=website, mobile=mobile,openingbalance=balance,
+                            street=street, city=city, state=state,paymentterms=payment,
+                            pincode=pincode, country=country,
+                            shipstreet=shipstreet, shipcity=shipcity,
+                            shipstate=shipstate,
+                            shippincode=shippincode, shipcountry=shipcountry)
+
+            vndr.save()
+            return redirect('addpurchaseorder')
+        return render(request,'app1/addpurchaseorder.html',{'cmp1': cmp1})
+    return redirect('/')
+
+@login_required(login_url='regcomp')
 def gopurchaseorder(request):
     if 'uid' in request.session:
         if request.session.has_key('uid'):
@@ -25740,3 +25791,99 @@ def getvendordata(request):
             list.append(dict)
         return JsonResponse(json.dumps(list), content_type="application/json", safe=False)
     return redirect('getvendordata')
+
+def getperiod(request):
+    id = request.GET.get('id')
+    list = []
+    toda = date.today() + timedelta(days=int(id))
+    newdate = toda.strftime("%d-%m-%Y")
+    dict = {'newdate': newdate}
+    list.append(dict)
+    return JsonResponse(json.dumps(list), content_type="application/json", safe=False)
+
+@login_required(login_url='regcomp')
+def vendorprofile(request, id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        vndr=vendor.objects.get(vendorid=id) 
+        return render(request,'app1/vendorprofile.html',{'cmp1': cmp1,'vndr':vndr})
+    return redirect('vendorprofile')
+
+@login_required(login_url='regcomp')
+def goeditvendor(request, id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        vndr=vendor.objects.get(vendorid=id) 
+        return render(request,'app1/editvendor.html',{'cmp1': cmp1,'vndr':vndr})
+    return redirect('goeditvendor')
+
+@login_required(login_url='regcomp')
+def editvendor(request,id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        if request.method=='POST': 
+            vndr=vendor.objects.get(vendorid=id)
+            vndr.title = request.POST['title']
+            vndr.firstname=request.POST['firstname']
+            vndr.lastname=request.POST['lastname']
+            vndr.companyname=request.POST['company_name']
+            vndr.email=request.POST['email']
+            vndr.website=request.POST['website']
+            vndr.mobile=request.POST['mobile']
+            vndr.gsttype=request.POST['gsttype']
+            vndr.gstin=request.POST['gstin']
+            vndr.panno=request.POST['panno']
+            vndr.sourceofsupply=request.POST['sourceofsupply']
+            vndr.currency=request.POST['currency']
+            vndr.openingbalance=request.POST['openingbalance']
+            vndr.paymentterms=request.POST['paymentterms']
+            vndr.street=request.POST['street']
+            vndr.city=request.POST['city']
+            vndr.state=request.POST['state']
+            vndr.pincode=request.POST['pincode']
+            vndr.country=request.POST['country']
+            vndr.shipstreet=request.POST['shipstreet']
+            vndr.shipcity=request.POST['shipcity']
+            vndr.shipstate=request.POST['shipstate']
+            vndr.shippincode=request.POST['shippincode']
+            vndr.shipcountry=request.POST['shipcountry']
+
+            vndr.save()
+            return redirect('govendor')
+        return render(request,'vendor.html')
+    return redirect('/')
+
+@login_required(login_url='regcomp')
+def deletevendor(request, id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        vndr=vendor.objects.get(vendorid=id)
+        vndr.delete() 
+        return redirect('govendor')
+    return redirect('govendor')
+
+def demo(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        return render(request,'app1/demo.html',{'cmp1': cmp1})
+    return redirect('demo') 

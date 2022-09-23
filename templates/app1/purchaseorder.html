@@ -25,10 +25,12 @@
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">All Vendors</a>
-                                <a class="dropdown-item" href="#">Active Vendors</a>
-                                <a class="dropdown-item" href="#">Inactive Vendors</a>
-                                <a class="dropdown-item" href="#">Custome View</a>
+                                <a class="dropdown-item" href="#">All</a>
+                                <a class="dropdown-item" href="#">Draft</a>
+                                <a class="dropdown-item" href="#">Billed</a>
+                                <a class="dropdown-item" href="#">Partialy Billed</a>
+                                <a class="dropdown-item" href="#">Canceled</a>
+                                <a class="dropdown-item" href="#">custom View</a>
                             </div>
                         </div>
                     </div>
@@ -72,33 +74,5 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            // Get the modal
-            var modal = document.getElementById("myModal");
-
-            // Get the button that opens the modal
-            var btn = document.getElementById("myBtn");
-
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-
-            // When the user clicks the button, open the modal
-            btn.onclick = function () {
-                modal.style.display = "block";
-            }
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        </script>
     {% endif %}
 {% endblock %}

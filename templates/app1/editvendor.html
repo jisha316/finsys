@@ -23,13 +23,14 @@
                     <h4 class="mb-0">Vendor Details</h4>
                 </div>
                 <hr/>
-                <form action="vendordetails" method="post" class="needs-validation" novalidate autocomplete="off">
+                <form action="editvendor/{{ vndr.vendorid }}" method="post" class="needs-validation" novalidate autocomplete="off">
                     {% csrf_token %}
                     {% if user.is_authenticated %}
                         <div class="row">
                             <div class="col-md-3 mt-2">
                                 <label for="validationCustom01">Title</label>
-                                <select name="title" id="title" class="form-control" id="validationCustom01">
+                                <select name="title" id="title" class="form-control">
+                                    <option value="{{ vndr.title }}">{{ vndr.title }}</option>
                                     <option value="Mr">Mr</option>
                                     <option value="Mrs">Mrs</option>
                                     <option value="Miss">Miss</option>
@@ -40,19 +41,19 @@
                             <div class="col-md-3 mt-2">
                                 <label for="validationCustom02">First name</label>
                                 <input type="text" class="form-control" id="validationCustom02" name="firstname"
-                                       required>
+                                    value="{{ vndr.firstname }}"   required>
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-3 mt-2">
                                 <label for="validationCustom02">Last name</label>
                                 <input type="text" class="form-control" id="validationCustom02" name="lastname"
-                                       required >
+                                    value="{{ vndr.lastname }}"   required >
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-3 mt-2">
                                 <label for="validationCustom03">Company</label>
                                 <input type="text" class="form-control" id="validationCustom03" name="company_name"
-                                       required>
+                                    value="{{ vndr.companyname }}"   required>
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                         </div>
@@ -61,19 +62,19 @@
                             <div class="col-md-4 mt-3">
                                 <label for="validationCustom03">Email</label>
                                 <input type="email" class="form-control" id="validationCustom03" name="email" required
-                                    placeholder="finsys@mail.com">
+                                    placeholder="finsys@mail.com" value="{{ vndr.email }}">
                                 <div class="invalid-feedback">Please provide a valid Email</div>
                             </div>
                             <div class="col-md-4 mt-3">
                                 <label for="validationCustom03">Website</label>
-                                <input type="text" class="form-control" id="validationCustom03"
+                                <input type="text" class="form-control" id="validationCustom03" value="{{ vndr.website }}"
                                     placeholder="www.finsys.com" onchange="checkweb(this)" name="website">
                                 <div id="warnweb" class="text-danger"></div>
                             </div>
                             <div class="col-md-4 mt-3">
                                 <label for="validationCustom01">Mobile</label>
                                 <input type="text" class="form-control" id="validationCustom01"
-                                    placeholder="Mobile number" maxlength="10"
+                                    placeholder="Mobile number" maxlength="10" value="{{ vndr.mobile }}"
                                     onchange="checkphone(this)" name="mobile">
                                 <div class="text-danger m-2" id="warnphone"></div>
                             </div>
@@ -86,7 +87,9 @@
                                 <label for="validationCustom04">GST Treatment</label>
                                 <select class="form-control" id="gsttyp" name="gsttype" onchange="showgsttyp()"
                                     onclick="hidinput('hello', this)" required>
-                                    <option selected disabled value="">Choose..</option>
+                        
+                                    <option value="{{ vndr.gsttype }}">{{ vndr.gsttype }}</option>
+
                                     <option value="Registered Business - Regular">Registered Business - Regular</option>
                                     <option value="Registered Business - Composition">Registered Business - Composition</option>
                                     <option value="unregistered Business">unregistered Business</option>
@@ -111,35 +114,36 @@
                                 <div id="hello">
                                     <label for="validationCustom05">GSTIN</label>
                                     <input type="text" class="form-control" onchange="checkgst(this)"
-                                        id="validationCustom05" name="gstin"
+                                        id="validationCustom05" name="gstin" value="{{ vndr.gstin }}"
                                         placeholder="29APPCK7465F1Z1">
                                     <a href="https://services.gst.gov.in/services/searchtp"
                                         target="_blank" style="color:#3dd5f3">Get Taxpayer details ?</a>
                                     <div class="text-danger m-2" id="warngst"></div>
                                 </div>
                             </div>
-                            <div class="col-md-4 mt-3 hide" id="legal">
+                            <!-- <div class="col-md-4 mt-3 hide" id="legal">
                                 <label for="">Business Legal Name</label>
                                 <input type="text" class="form-control" name="">
                             </div>
                             <div class="col-md-4 mt-3 hide" id="trade">
                                 <label for="">Business Trade Name</label>
                                  <input type="text" class="form-control" name="">
-                             </div>
+                             </div>-->
+
                             <div class="col-md-4 mt-3">
                                 <label for="validationCustom03">PAN NO</label>
                                 <input type="text" class="form-control" id="validationCustom03" name="panno" required 
-                                    onchange="checkpan(this)" placeholder="APPCK7465F">
+                                    onchange="checkpan(this)" placeholder="APPCK7465F" value="{{vndr.panno }}">
                                 <div class="text-danger m-2" id="warnpan"></div>
-                            </div>
+                            </div> 
 
                         </div>
                         <div class="row">
                             <div class="col-md-3 mt-2">
                                <label for="">Place of Supply</label>
-                                <input type="text" class="form-control" id="" name="sourceofsupply">
+                                <input type="text" class="form-control" value="{{ vndr.sourceofsupply }}" name="sourceofsupply">
                             </div>
-                            <div class="col-md-3 mt-2 hide" id="tax">
+                            <!-- <div class="col-md-3 mt-2 hide" id="tax">
                                 <label for="">Tax Preference</label><br>
                                 <div class="form-check form-check-inline">
                                     <input type="radio" class="form-check-input" value="Taxable" name="taxpref">
@@ -149,13 +153,13 @@
                                     <input type="radio" class="form-check-input" value="Tax Exempt" name="taxpref">
                                     <label class="form-check-label">Tax Exempt</label>
                                 </div>
-                            </div>
+                            </div> -->
                             
                             <div class="col-md-3 mt-2">
                                 <label for="">Currency</label>
                                 <div class="d-flex">
                                     <input type="text" class="form-control" id="" name="currency" placeholder="INR - Indian Rupee"
-                                        id="validationCustom02" required>
+                                        id="validationCustom02" value="{{ vndr.currency }}" required>
                                     <a href="#">
                                         <button type="button" class="btn btn-outline-secondary ml-1">+</button>
                                     </a>
@@ -165,12 +169,13 @@
                             
                             <div class="col-md-3 mt-2">
                                <label for="">Opening Balance</label>
-                                <input type="number" class="form-control" name="openingbalance" placeholder="INR">
+                                <input type="number" class="form-control" name="openingbalance" placeholder="INR"
+                                value="{{ vndr.openingbalance }}">
                             </div>
                             <div class="col-md-3 mt-2">
                                <label for="">Payment Terms</label>
                                <select class=" form-control" id="validationCustom02" name="paymentterms" required>
-                                    <option selected disabled value="">Choose..</option>
+                                    <option value="{{ vndr.paymentterms }}">{{ vndr.paymentterms }}</option>
                                     <option value="Due on Receipt">Due on Receipt</option>
                                     <option value="Net 15">NET15</option>
                                     <option value="Net 30">NET30</option>
@@ -191,7 +196,7 @@
                                     <div class="col-md-12 mt-3">
                                         <div class="form-row">
                                             <label for="street">Street</label>
-                                            <textarea class="form-control street" id="street" name="street" required></textarea>
+                                            <input type="text" class="form-control" id="street" value="{{ vndr.street }}" name="street" required>
                                             <div class="invalid-feedback">Please provide a valid Street</div>
                                         </div>
                                     </div>
@@ -201,7 +206,7 @@
                                         <div class="form-row">
                                             <label for="city">City</label>
                                             <input type="text" class="form-control" id="city"
-                                                name="city"
+                                                name="city" value="{{ vndr.city }}"
                                                 required
                                                 placeholder="City">
                                             <div class="invalid-feedback">Please provide a valid City</div>
@@ -211,7 +216,8 @@
                                         <div class="form-row">
                                             <label for="state">State</label>
                                             <select type="text" class="form-control" id="state" name="state">
-                                                <option value="" disabled selected>Choose</option>
+                                                <option value="{{ vndr.state }}">{{ vndr.state }}</option>
+
                                                 <option value="Andaman and Nicobar Islads">Andaman and Nicobar Islads
                                                 </option>
                                                 <option value="Andhra Predhesh">Andhra Predhesh</option>
@@ -261,7 +267,7 @@
                                         <div class="form-row">
                                             <label for="pinco">Pin Code</label>
                                             <input type="text" class="form-control" id="pinco"
-                                                name="pincode" required maxlength="6"
+                                                name="pincode" required maxlength="6" value="{{ vndr.pincode }}"
                                                 placeholder="PIN code">
                                             <div class="invalid-feedback">Please provide a valid Pin Code</div>
                                         </div>
@@ -269,7 +275,7 @@
                                     <div class="col-md-6 mt-3">
                                         <div class="form-row">
                                             <label for="country">Country</label>
-                                            <input type="text" class="form-control" id="country"
+                                            <input type="text" class="form-control" id="country" value="{{ vndr.country }}"
                                                 name="country" required
                                                 placeholder="Country">
                                             <div class="invalid-feedback">Please provide a valid Country</div>
@@ -290,9 +296,8 @@
                                     <div class="col-md-12 mt-3">
                                         <div class="form-row">
                                             <label for="shipstreet">Street</label>
-                                            <textarea class="form-control" id="shipstreet"
-                                                name="shipstreet"
-                                                required></textarea>
+                                            <input type="text" class="form-control" id="shipstreet" name="shipstreet"
+                                            value="{{ vndr.shipstreet }}" required>
                                             <div class="invalid-feedback">Please provide a valid Street</div>
                                         </div>
                                     </div>
@@ -301,7 +306,7 @@
                                     <div class="col-md-6 mt-3">
                                         <div class="form-row">
                                             <label for="shipcity">City</label>
-                                            <input type="text" class="form-control" id="shipcity"
+                                            <input type="text" class="form-control" id="shipcity" value="{{ vndr.shipcity }}"
                                                 name="shipcity" required placeholder="City">
                                             <div class="invalid-feedback">Please provide a valid City</div>
                                         </div>
@@ -310,7 +315,8 @@
                                         <div class="form-row">
                                             <label for="shipstate">State</label>
                                             <select type="text" class="form-control" id="plosu" name="shipstate">
-                                                <option id="shipst" selected>Choose</option>
+                                                <option value="{{ vndr.shipstate }}">{{ vndr.shipstate }}</option>
+
                                                 <option value="Andaman and Nicobar Islads">Andaman and Nicobar Islads
                                                 </option>
                                                 <option value="Andhra Predhesh">Andhra Predhesh</option>
@@ -360,7 +366,7 @@
                                         <div class="form-row">
                                             <label for="shippinco">Pin Code</label>
                                             <input type="text" class="form-control" id="shippinco"
-                                                name="shippincode" required
+                                                name="shippincode" value="{{ vndr.shippincode }}" required
                                                 placeholder="PIN code">
                                             <div class="invalid-feedback">Please provide a valid Pin Code</div>
                                         </div>
@@ -369,7 +375,7 @@
                                         <div class="form-row">
                                             <label for="shipcountry">Country</label>
                                             <input type="text" class="form-control" id="shipcountry"
-                                                name="shipcountry" required
+                                                name="shipcountry" value="{{ vndr.shipcountry }}" required
                                                 placeholder="Country">
                                             <div class="invalid-feedback">Please provide a valid Country</div>
                                         </div>

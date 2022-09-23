@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="container-fluid">
-                        <table class="table table-responsive-md mt-4">
+                        <table class="table table-responsive-md mt-4" id="tableID">
                             <thead>
                             <tr>
                                 <th>NAME</th>
@@ -50,18 +50,30 @@
                             <tbody>
                             {% for v in vndr %}
                             <tr>
-                                <th>{{ v.firstname }} {{ v.lastname }}</th>
+                                <th><a href="vendorprofile/{{ v.vendorid }}" title="Profile">{{ v.firstname }} {{ v.lastname }}</a></th>
                                 <td>{{ v.companyname }}</td>
                                 <td>{{ v.email }}</td>
                                 <td>{{ v.mobile }}</td>
                                 <td>{{ v.gsttype }}</td>
                                 <td>{{ v.gstin }}</td>
                                 <td>{{ v.panno }}</td>
-                                <td><a href="editcustomer/{{ customer.customerid }}"
-                                       style="color: white; font-size: 15px;"><i class="bx bx-edit">EDIT</i></a><br>
-                                    <a href="deletecustomer/{{ customer.customerid }}"
-                                       style="color:white; font-size: 15px;"><i class="bx bx-trash">DELETE</i>
-                                    </a>
+                                <td>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-outline-info dropdown-toggle text-grey"
+                                            data-toggle="dropdown">Actions
+                                        </button>
+                                        <div class="dropdown-menu" style="background-color: #fff;">
+                                            <a href="goeditvendor/{{ v.vendorid }}" class="dropdown-item"
+                                                style="color: #000; font-size: 15px;"><i class="bx bx-edit"><b>EDIT</b></i>
+                                            </a>
+                                            <a href="deletevendor/{{ v.vendorid }}" class="dropdown-item"
+                                               style="color: #000; font-size: 15px;"><i class="bx bx-trash"><b>DELETE</b></i>
+                                            </a>
+                                            <a href="vendorprofile/{{ v.vendorid }}" class="dropdown-item"
+                                               style="color: #000; font-size: 15px;"><i class="bx bxs-eyedropper"><b>VIEW</b></i>
+                                            </a>
+                                        </div>
+                                    </div>   
                                 </td>
                             </tr>
                             {% endfor %}
@@ -71,33 +83,6 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            // Get the modal
-            var modal = document.getElementById("myModal");
-
-            // Get the button that opens the modal
-            var btn = document.getElementById("myBtn");
-
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-
-            // When the user clicks the button, open the modal
-            btn.onclick = function () {
-                modal.style.display = "block";
-            }
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        </script>
+    
     {% endif %}
 {% endblock %}
