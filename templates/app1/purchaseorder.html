@@ -14,8 +14,19 @@
             <div class="card radius-15">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-5"></div>
+                        <div class="col-md-3">
+                            <form action="search_estimate" method="POST">{% csrf_token %}
+                                <div class="d-flex">
+                                    <input type="text" class="searchTerm form-control" name="search" style="width: 200px;">
+                                    <button type="submit" class="searchButton form-control" style="width: 60px;">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            
+                        </div>
+                        <div class="col-md-3"></div>
                         <div class="col-md-3"></div>
                         <div class="btn-group col-md-2">
                             <a href="{% url 'addpurchaseorder' %}" class="btn btn-outline-info" role="button">New</a>
@@ -45,27 +56,21 @@
                                 <th>Reference</th>
                                 <th>Vendor Name</th>
                                 <th>Status</th>
-                                <th>Amount</th>
                                 <th>Expected Delivery Date</th>
-                                <th>Action</th>
+                                <th>Total Amount</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for v in vndr %}
+                            {% for p in pordr %}
                             <tr>
-                                <th>{{ v.firstname }}{{ v.lastname }}</th>
-                                <td>{{ v.companyname }}</td>
-                                <td>{{ v.email }}</td>
-                                <td>{{ v.mobile }}</td>
-                                <td>{{ v.gsttype }}</td>
-                                <td>{{ v.gstin }}</td>
-                                <td>{{ v.panno }}</td>
-                                <td><a href="editcustomer/{{ customer.customerid }}"
-                                       style="color: white; font-size: 15px;"><i class="bx bx-edit">EDIT</i></a><br>
-                                    <a href="deletecustomer/{{ customer.customerid }}"
-                                       style="color:white; font-size: 15px;"><i class="bx bx-trash">DELETE</i>
-                                    </a>
-                                </td>
+                                <th>{{ p.date }}</th>
+                                <td>{{ p.branch }}</td>
+                                <td><a href="viewpurchaseorder/{{ p.porderid }}">{{ p.puchaseorder_no }}</a></td>
+                                <td>{{ p.reference }}</td>
+                                <td>{{ p.vendor_name }}</td>
+                                <td></td>
+                                <td>{{ p.deliver_date }}</td>
+                                <td>{{ p.grand_total }}</td>
                             </tr>
                             {% endfor %}
                             </tbody>

@@ -1,3 +1,4 @@
+from email.headerregistry import Address
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -1111,3 +1112,71 @@ class vendor(models.Model):
     shipstate = models.CharField(max_length=100, null=True)
     shippincode = models.CharField(max_length=100, null=True)
     shipcountry = models.CharField(max_length=100, null=True)
+
+class itemtable(models.Model):
+    cid = models.ForeignKey(company, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    item_type = models.CharField(max_length=100)
+    unit = models.CharField(max_length=100)
+    hsn = models.CharField(max_length=100)
+    tax_reference = models.CharField(max_length=100)
+    purchase_cost = models.CharField(max_length=100)
+    sales_cost = models.CharField(max_length=100)
+    tax_rate = models.CharField(max_length=100)
+    acount_pur = models.CharField(max_length=100)
+    account_sal = models.CharField(max_length=100)
+    pur_desc = models.CharField(max_length=100)
+    sale_desc = models.CharField(max_length=100)
+    intra_st = models.CharField(max_length=100)
+    inter_st = models.CharField(max_length=100)
+    inventry = models.CharField(max_length=100)
+    stock = models.CharField(max_length=100)
+    status = models.CharField(max_length=100)
+
+class purchaseorder(models.Model):
+    porderid = models.AutoField(('pid'), primary_key=True)
+    vendor_name = models.CharField(max_length=100)
+    vendor_details = models.TextField()
+    billing_address = models.TextField()
+    shipping_address = models.TextField()
+    gsttype = models.CharField(max_length=100, null=True)
+    gstin = models.CharField(max_length=100, default='')
+    panno = models.CharField(max_length=100, null=True)
+    placeofsupply = models.CharField(max_length=100, null=True)
+    currency = models.CharField(max_length=100, null=True)
+    openingbalance = models.CharField(max_length=100, null=True)
+    paymentterms = models.CharField(max_length=100, null=True)
+    puchaseorder_no = models.IntegerField(default=1000)
+    sourceofsupply = models.CharField(max_length=100, null=True)
+    destiofsupply = models.CharField(max_length=100, null=True)
+    branch = models.CharField(max_length=100, null=True)
+    reference = models.CharField(max_length=100, null=True)
+    contact_address = models.CharField(max_length=255, null=True)
+    contact_person = models.CharField(max_length=100, null=True)
+    contact_number = models.CharField(max_length=100, null=True)
+    date = models.DateField(null=True)
+    deliver_date = models.DateField(null=True)
+    credit_period = models.CharField(max_length=100, null=True)
+    due_date = models.CharField(max_length=100, null=True)
+    sub_total = models.CharField(max_length=100,null=True)
+    sgst = models.CharField(max_length=100,null=True)
+    cgst = models.CharField(max_length=100,null=True)
+    igst = models.CharField(max_length=100,null=True)
+    discount = models.CharField(max_length=100,null=True)
+    tcs = models.CharField(max_length=100,null=True)
+    round_off = models.CharField(max_length=100,null=True)
+    tax_amount = models.CharField(max_length=100,null=True)
+    grand_total = models.CharField(max_length=100,null=True)
+
+class porder_item(models.Model):
+    pid = models.ForeignKey(purchaseorder, on_delete=models.CASCADE,null=True)
+    items = models.CharField(max_length=100)
+    quantity = models.CharField(max_length=100,null=True)
+    rate = models.CharField(max_length=100,null=True)
+    tax = models.CharField(max_length=100,null=True)
+    amount = models.CharField(max_length=100,null=True)
+
+
+
+
+    

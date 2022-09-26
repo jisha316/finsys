@@ -401,6 +401,7 @@
             </div>
         </div>
     </div>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
         function poppins() {
@@ -442,7 +443,7 @@
                 document.getElementById('taxdud').style.display = "none";
                 document.getElementById('sezdev').style.display = "none";
             }
-            if( a == "Registered Business - Composition" ){
+            else if( a == "Registered Business - Composition" ){
                 document.getElementById('comp').style.display = "flex";
                 document.getElementById('tax').style.display = "none";
                 document.getElementById('trade').style.display = "none";
@@ -455,7 +456,7 @@
                 document.getElementById('taxdud').style.display = "none";
                 document.getElementById('sezdev').style.display = "none";
             }
-            if( a == "unregistered Business" ){
+            else if( a == "unregistered Business" ){
                 document.getElementById('unreg').style.display = "flex";
                 document.getElementById('tax').style.display = "block";
                 document.getElementById('trade').style.display = "none";
@@ -468,7 +469,7 @@
                 document.getElementById('taxdud').style.display = "none";
                 document.getElementById('sezdev').style.display = "none";
             }
-            if( a == "Overseas" ){
+            else if( a == "Overseas" ){
                 document.getElementById('overseas').style.display = "flex";
                 document.getElementById('tax').style.display = "none";
                 document.getElementById('trade').style.display = "none";
@@ -481,7 +482,7 @@
                 document.getElementById('taxdud').style.display = "none";
                 document.getElementById('sezdev').style.display = "none";
             }
-            if( a == "Special Economic Zone (SEZ)" ){
+            else if( a == "Special Economic Zone (SEZ)" ){
                 document.getElementById('sez').style.display = "flex";
                 document.getElementById('tax').style.display = "none";
                 document.getElementById('trade').style.display = "none";
@@ -494,7 +495,7 @@
                 document.getElementById('taxdud').style.display = "none";
                 document.getElementById('sezdev').style.display = "none";
             }
-            if( a == "Demed Exports" ){
+            else if( a == "Demed Exports" ){
                 document.getElementById('demed').style.display = "flex";
                 document.getElementById('tax').style.display = "none";
                 document.getElementById('trade').style.display = "none";
@@ -507,7 +508,7 @@
                 document.getElementById('taxdud').style.display = "none";
                 document.getElementById('sezdev').style.display = "none";
             }
-            if( a == "Tax Deductor" ){
+            else if( a == "Tax Deductor" ){
                 document.getElementById('taxdud').style.display = "flex";
                 document.getElementById('tax').style.display = "none";
                 document.getElementById('trade').style.display = "none";
@@ -520,7 +521,7 @@
                 document.getElementById('overseas').style.display = "none";
                 document.getElementById('sezdev').style.display = "none";
             }
-            if( a == "SEZ Developer" ){
+            else if( a == "SEZ Developer" ){
                 document.getElementById('sezdev').style.display = "flex";
                 document.getElementById('tax').style.display = "none";
                 document.getElementById('trade').style.display = "none";
@@ -589,25 +590,6 @@
                 alert('Please provide a valid Phone Number')
             }
         }
-    </script>
-    <script>
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
     </script>
 
 {% endblock %}

@@ -6,7 +6,9 @@ from datetime import datetime, date, timedelta
 from .models import advancepayment, paydowncreditcard, salesrecpts, timeact, timeactsale, Cheqs, suplrcredit, addac, \
     bills, invoice, expences, payment, credit, delayedcharge, estimate, service, noninventory, bundle, employee, \
     payslip, inventory, customer, supplier, company, accounts, ProductModel, ItemModel, accountype, \
-    expenseaccount, incomeaccount, accounts1, recon1, recordpay, addtax1, bankstatement, customize, vendor
+    expenseaccount, incomeaccount, accounts1, recon1, recordpay, addtax1, bankstatement, customize, vendor, itemtable, \
+    purchaseorder , porder_item
+
 from django.contrib.auth.models import auth, User
 from django.contrib import messages
 from django.db.models import Sum, Q
@@ -25737,7 +25739,8 @@ def gopurchaseorder(request):
         else:
             return redirect('/')
         cmp1 = company.objects.get(id=request.session['uid'])
-        return render(request,'app1/purchaseorder.html',{'cmp1': cmp1})
+        pordr = purchaseorder.objects.all()
+        return render(request,'app1/purchaseorder.html',{'cmp1': cmp1,'pordr':pordr})
     return redirect('gopurchaseorder')
 
 @login_required(login_url='regcomp')
@@ -25749,7 +25752,8 @@ def addpurchaseorder(request):
             return redirect('/')
         cmp1 = company.objects.get(id=request.session['uid'])
         vndr = vendor.objects.all()
-        return render(request,'app1/addpurchaseorder.html',{'cmp1': cmp1,'vndr':vndr})
+        itm = itemtable.objects.all()
+        return render(request,'app1/addpurchaseorder.html',{'cmp1': cmp1,'vndr':vndr,'item':itm})
     return redirect('addpurchaseorder')
 
 def getvendordata(request):
@@ -25887,3 +25891,129 @@ def demo(request):
         cmp1 = company.objects.get(id=request.session['uid'])
         return render(request,'app1/demo.html',{'cmp1': cmp1})
     return redirect('demo') 
+
+def create_item1(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        if request.method == 'POST':
+            cmp1 = company.objects.get(id=request.session['uid'])
+            iname = request.POST['name']
+            itype = request.POST['type']
+            iunit = request.POST.get('unit')
+            ihsn = request.POST['hsn']
+            itax = request.POST['taxref']
+            ipcost = request.POST['pcost']
+            iscost = request.POST['salesprice']
+            itrate = request.POST['tax']
+            ipuracc = request.POST['pur_account']
+            isalacc = request.POST['sale_account']
+            ipurdesc = request.POST['pur_desc']
+            isaledesc = request.POST['sale_desc']
+            iintra = request.POST['intra_st']
+            iinter = request.POST['inter_st']
+            iinv = request.POST['invacc']
+            istock = request.POST['stock']
+            istatus = request.POST['status']
+            item = itemtable(name=iname,item_type=itype,unit=iunit,
+                                hsn=ihsn,tax_reference=itax,
+                                purchase_cost=ipcost,
+                                sales_cost=iscost,
+                                tax_rate=itrate,
+                                acount_pur=ipuracc,
+                                account_sal=isalacc,
+                                pur_desc=ipurdesc,
+                                sale_desc=isaledesc,
+                                intra_st=iintra,
+                                inter_st=iinter,
+                                inventry=iinv,
+                                stock=istock,
+                                status=istatus,
+                                cid=cmp1)
+            item.save()
+            return redirect('addpurchaseorder')
+        return render(request,'app1/addpurchaseorder.html')
+    return redirect('/') 
+
+def purchase_order(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        if request.method == 'POST':
+            vname = request.POST['vendor_name']
+            vdetails = request.POST['vendor_details']
+            baddress = request.POST['billing_address']
+            saddress = request.POST['shipping_address']
+            gsttype=request.POST['gsttype']
+            gstin=request.POST['gstin']
+            panno=request.POST['panno']
+            vsupply=request.POST['placeofsupply']
+            currency=request.POST['currency']
+            balance=request.POST['openingbalance']
+            payment=request.POST['paymentterms']
+            puchaseorder_no='1000'
+            supply=request.POST['sourceofsupply']
+            destsupply=request.POST['destiofsupply']
+            branch=request.POST['branch']
+            reference=request.POST['reference']
+            contact_addr=request.POST['contact_address']
+            contact_prsn=request.POST['contact_person']
+            contact_nmbr=request.POST['contact_number']
+            date=request.POST['date']
+            deliver_dt=request.POST['deliver_date']
+            credit_period=request.POST['credit_period']
+            due_date=request.POST['due_date']
+            sub_total=request.POST['sub_total']
+            sgst=request.POST['sgst']
+            cgst=request.POST['sgst']
+            igst=request.POST['sgst']
+            tax_amount=request.POST['tax_amount']
+            grand_total=request.POST['grand_total']
+
+            porder = purchaseorder(vendor_name=vname,vendor_details=vdetails,billing_address=baddress,shipping_address=saddress,
+                                    gsttype=gsttype, gstin=gstin,panno=panno,placeofsupply=vsupply,currency=currency,
+                                    openingbalance=balance,paymentterms=payment,sourceofsupply=supply,destiofsupply=destsupply,
+                                    branch=branch,reference=reference,contact_address=contact_addr,contact_person=contact_prsn,
+                                    contact_number=contact_nmbr,date=date,deliver_date=deliver_dt,credit_period=credit_period,
+                                    due_date=due_date,sub_total=sub_total,sgst=sgst,cgst=cgst,igst=igst,tax_amount=tax_amount,
+                                    grand_total=grand_total)
+            porder.save()
+            porder.puchaseorder_no = int(porder.puchaseorder_no) + porder.porderid
+            porder.save()
+
+
+            items = request.POST.getlist("items[]")
+            quantity = request.POST.getlist("quantity[]")
+            rate = request.POST.getlist("rate[]")
+            tax = request.POST.getlist("tax[]")
+            amount = request.POST.getlist("amount[]")
+
+            prid=purchaseorder.objects.get(porderid=porder.porderid)
+
+            if len(items)==len(quantity)==len(rate)==len(tax)==len(amount) and items and quantity and rate and tax and amount:
+                mapped=zip(items,quantity,rate,tax,amount)
+                mapped=list(mapped)
+                for ele in mapped:
+                    porderAdd,created = porder_item.objects.get_or_create(items = ele[0],quantity=ele[1],rate=ele[2],
+                    tax=ele[3],amount=ele[4],pid=prid)
+            return redirect('gopurchaseorder')
+        return render(request,'app1/purchaseorder.html',{'cmp1': cmp1})
+    return redirect('/') 
+
+@login_required(login_url='regcomp')
+def viewpurchaseorder(request,id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        pordr=purchaseorder.objects.get(porderid=id) 
+        return render(request,'app1/view_prchsorder.html',{'cmp1': cmp1,'pordr':pordr})
+    return redirect('gopurchaseorder')

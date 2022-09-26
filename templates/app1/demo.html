@@ -1,14 +1,16 @@
 {% extends 'app1/base.html' %}
 {% block body %}
     {% load static %}
+    <form class="well form-horizontal" method="post" action="{% url 'demo' %}">
+        {% csrf_token %}
+        
+        <input name="cname[]" placeholder="Full name"/>
+        <input name="desc[]" placeholder="Description"/>
+        <input name="cname[]" placeholder="Full name"/>
+        <input name="desc[]" placeholder="Description"/>
+        <button type="submit">Submit</button>
+      </form>
 
 
-    <table class="table table-bordered" id="invoice-form-items-table">
-      <tbody id="invoice-form-items-table-body">
-        <td class="form-input-td"><input name="invoice-gst-percentage" type="number" step="any" class="form-control" placeholder="GST %"></td>
-      </tbody>
-    </table>
-    
-    
+
 {% endblock %}
-
