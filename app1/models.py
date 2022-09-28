@@ -1136,6 +1136,7 @@ class itemtable(models.Model):
 class purchaseorder(models.Model):
     porderid = models.AutoField(('pid'), primary_key=True)
     vendor_name = models.CharField(max_length=100)
+    company_name = models.CharField(max_length=100,null=True)
     vendor_details = models.TextField()
     billing_address = models.TextField()
     shipping_address = models.TextField()
@@ -1162,11 +1163,24 @@ class purchaseorder(models.Model):
     sgst = models.CharField(max_length=100,null=True)
     cgst = models.CharField(max_length=100,null=True)
     igst = models.CharField(max_length=100,null=True)
-    discount = models.CharField(max_length=100,null=True)
+    discount = models.CharField(max_length=100,default=0)
     tcs = models.CharField(max_length=100,null=True)
+    tcs_amount = models.CharField(max_length=100,null=True)
     round_off = models.CharField(max_length=100,null=True)
     tax_amount = models.CharField(max_length=100,null=True)
     grand_total = models.CharField(max_length=100,null=True)
+    note = models.CharField(max_length=255,null=True)
+    file = models.FileField(upload_to='purchaseorder',default=None)
+
+
+    porder_status = (
+        ('Draft','Draft'),
+        ('Approved','Approved'),
+        ('Billed','Billed'),
+
+    )
+    
+    status =models.CharField(max_length=150,choices=porder_status,default='Draft')
 
 class porder_item(models.Model):
     pid = models.ForeignKey(purchaseorder, on_delete=models.CASCADE,null=True)

@@ -2,6 +2,7 @@ from cmd import IDENTCHARS
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,HttpResponse
 from datetime import datetime, date, timedelta
 from .models import advancepayment, paydowncreditcard, salesrecpts, timeact, timeactsale, Cheqs, suplrcredit, addac, \
     bills, invoice, expences, payment, credit, delayedcharge, estimate, service, noninventory, bundle, employee, \
@@ -17,6 +18,13 @@ import json
 from django.http.response import JsonResponse
 from django.contrib.auth.decorators import login_required
 import itertools
+from .pdf import html2pdf
+
+import os
+from django.conf import settings
+from django.http import HttpResponse, Http404
+from urllib import response
+
 
 
 def index(request):
@@ -25682,130 +25690,6 @@ def vendordetails(request):
     return redirect('/')
 
 @login_required(login_url='regcomp')
-def vendordetails1(request):
-    if 'uid' in request.session:
-        if request.session.has_key('uid'):
-            uid = request.session['uid']
-        else:
-            return redirect('/')
-        cmp1 = company.objects.get(id=request.session['uid'])
-        if request.method=='POST':
-            title=request.POST['title']
-            first_name=request.POST['firstname']
-            last_name=request.POST['lastname']
-            cmpnm=request.POST['company_name']
-            email=request.POST['email']
-            website=request.POST['website']
-            mobile=request.POST['mobile']
-            gsttype=request.POST['gsttype']
-            gstin=request.POST['gstin']
-            panno=request.POST['panno']
-            supply=request.POST['sourceofsupply']
-            currency=request.POST['currency']
-            balance=request.POST['openingbalance']
-            payment=request.POST['paymentterms']
-            street=request.POST['street']
-            city=request.POST['city']
-            state=request.POST['state']
-            pincode=request.POST['pincode']
-            country=request.POST['country']
-            shipstreet=request.POST['shipstreet']
-            shipcity=request.POST['shipcity']
-            shipstate=request.POST['shipstate']
-            shippincode=request.POST['shippincode']
-            shipcountry=request.POST['shipcountry']
-            
-            vndr = vendor(title=title, firstname=first_name,
-                            lastname=last_name, companyname= cmpnm,
-                            gsttype=gsttype, gstin=gstin, 
-                            panno=panno, email=email,sourceofsupply=supply,currency=currency,
-                            website=website, mobile=mobile,openingbalance=balance,
-                            street=street, city=city, state=state,paymentterms=payment,
-                            pincode=pincode, country=country,
-                            shipstreet=shipstreet, shipcity=shipcity,
-                            shipstate=shipstate,
-                            shippincode=shippincode, shipcountry=shipcountry)
-
-            vndr.save()
-            return redirect('addpurchaseorder')
-        return render(request,'app1/addpurchaseorder.html',{'cmp1': cmp1})
-    return redirect('/')
-
-@login_required(login_url='regcomp')
-def gopurchaseorder(request):
-    if 'uid' in request.session:
-        if request.session.has_key('uid'):
-            uid = request.session['uid']
-        else:
-            return redirect('/')
-        cmp1 = company.objects.get(id=request.session['uid'])
-        pordr = purchaseorder.objects.all()
-        return render(request,'app1/purchaseorder.html',{'cmp1': cmp1,'pordr':pordr})
-    return redirect('gopurchaseorder')
-
-@login_required(login_url='regcomp')
-def addpurchaseorder(request):
-    if 'uid' in request.session:
-        if request.session.has_key('uid'):
-            uid = request.session['uid']
-        else:
-            return redirect('/')
-        cmp1 = company.objects.get(id=request.session['uid'])
-        vndr = vendor.objects.all()
-        itm = itemtable.objects.all()
-        return render(request,'app1/addpurchaseorder.html',{'cmp1': cmp1,'vndr':vndr,'item':itm})
-    return redirect('addpurchaseorder')
-
-def getvendordata(request):
-    if 'uid' in request.session:
-        if request.session.has_key('uid'):
-            uid = request.session['uid']
-        else:
-            return redirect('/')
-        cmp1 = company.objects.get(id=request.session['uid'])
-        id = request.GET.get('id')
-        x = id.split()
-        x.append(" ")
-        a = x[0]
-        b = x[1]
-        if x[2] is not None:
-            b = x[1] + " " + x[2]
-            vendobject = vendor.objects.get(firstname=a, lastname=b)
-            list = []
-            dict = {'vendorid': vendobject.vendorid, 'title': vendobject.title, 'firstname': vendobject.firstname,
-                    'lastname': vendobject.lastname, 'companyname': vendobject.companyname, 'gsttype': vendobject.gsttype,
-                    'gstin': vendobject.gstin, 'panno': vendobject.panno, 'email':vendobject.email,'website': vendobject.website,
-                    'mobile': vendobject.mobile, 'street': vendobject.street, 'sourceofsupply':vendobject.sourceofsupply,
-                    'currency':vendobject.currency, 'openingbalance':vendobject.openingbalance, 'paymentterms':vendobject.paymentterms,
-                    'city': vendobject.city, 'state': vendobject.state, 'pincode': vendobject.pincode, 'country': vendobject.country,
-                    'shipstreet': vendobject.shipstreet, 'shipcity': vendobject.shipcity, 'shippincode': vendobject.shippincode,
-                    'shipstate': vendobject.shipstate, 'shipcountry': vendobject.shipcountry}
-            list.append(dict)
-        else:
-            vendorbject = vendor.objects.get(firstname=a, lastname=b)
-            list = []
-            dict = {'vendorid': vendobject.vendorid, 'title': vendobject.title, 'firstname': vendobject.firstname,
-                    'lastname': vendobject.lastname, 'companyname': vendobject.companyname, 'gsttype': vendobject.gsttype,
-                    'gstin': vendobject.gstin, 'panno': vendobject.panno, 'email':vendobject.email, 'website': vendobject.website,
-                    'mobile': vendobject.mobile, 'street': vendobject.street, 'sourceofsupply':vendobject.sourceofsupply,
-                    'currency':vendobject.currency, 'openingbalance':vendobject.openingbalance, 'paymentterms':vendobject.paymentterms,
-                    'city': vendobject.city, 'state': vendobject.state, 'pincode': vendobject.pincode, 'country': vendobject.country,
-                    'shipstreet': vendobject.shipstreet, 'shipcity': vendobject.shipcity, 'shippincode': vendobject.shippincode,
-                    'shipstate': vendobject.shipstate, 'shipcountry': vendobject.shipcountry}
-            list.append(dict)
-        return JsonResponse(json.dumps(list), content_type="application/json", safe=False)
-    return redirect('getvendordata')
-
-def getperiod(request):
-    id = request.GET.get('id')
-    list = []
-    toda = date.today() + timedelta(days=int(id))
-    newdate = toda.strftime("%d-%m-%Y")
-    dict = {'newdate': newdate}
-    list.append(dict)
-    return JsonResponse(json.dumps(list), content_type="application/json", safe=False)
-
-@login_required(login_url='regcomp')
 def vendorprofile(request, id):
     if 'uid' in request.session:
         if request.session.has_key('uid'):
@@ -25882,6 +25766,105 @@ def deletevendor(request, id):
         return redirect('govendor')
     return redirect('govendor')
 
+@login_required(login_url='regcomp')
+def vendordetails1(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        if request.method=='POST':
+            title=request.POST['title']
+            first_name=request.POST['firstname']
+            last_name=request.POST['lastname']
+            cmpnm=request.POST['company_name']
+            email=request.POST['email']
+            website=request.POST['website']
+            mobile=request.POST['mobile']
+            gsttype=request.POST['gsttype']
+            gstin=request.POST['gstin']
+            panno=request.POST['panno']
+            supply=request.POST['sourceofsupply']
+            currency=request.POST['currency']
+            balance=request.POST['openingbalance']
+            payment=request.POST['paymentterms']
+            street=request.POST['street']
+            city=request.POST['city']
+            state=request.POST['state']
+            pincode=request.POST['pincode']
+            country=request.POST['country']
+            shipstreet=request.POST['shipstreet']
+            shipcity=request.POST['shipcity']
+            shipstate=request.POST['shipstate']
+            shippincode=request.POST['shippincode']
+            shipcountry=request.POST['shipcountry']
+            
+            vndr = vendor(title=title, firstname=first_name,
+                            lastname=last_name, companyname= cmpnm,
+                            gsttype=gsttype, gstin=gstin, 
+                            panno=panno, email=email,sourceofsupply=supply,currency=currency,
+                            website=website, mobile=mobile,openingbalance=balance,
+                            street=street, city=city, state=state,paymentterms=payment,
+                            pincode=pincode, country=country,
+                            shipstreet=shipstreet, shipcity=shipcity,
+                            shipstate=shipstate,
+                            shippincode=shippincode, shipcountry=shipcountry)
+
+            vndr.save()
+            return redirect('addpurchaseorder')
+        return render(request,'app1/addpurchaseorder.html',{'cmp1': cmp1})
+    return redirect('/')
+
+def getvendordata(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        id = request.GET.get('id')
+        x = id.split()
+        x.append(" ")
+        a = x[0]
+        b = x[1]
+        if x[2] is not None:
+            b = x[1] + " " + x[2]
+            vendobject = vendor.objects.get(firstname=a, lastname=b)
+            list = []
+            dict = {'vendorid': vendobject.vendorid, 'title': vendobject.title, 'firstname': vendobject.firstname,
+                    'lastname': vendobject.lastname, 'companyname': vendobject.companyname, 'gsttype': vendobject.gsttype,
+                    'gstin': vendobject.gstin, 'panno': vendobject.panno, 'email':vendobject.email,'website': vendobject.website,
+                    'mobile': vendobject.mobile, 'street': vendobject.street, 'sourceofsupply':vendobject.sourceofsupply,
+                    'currency':vendobject.currency, 'openingbalance':vendobject.openingbalance, 'paymentterms':vendobject.paymentterms,
+                    'city': vendobject.city, 'state': vendobject.state, 'pincode': vendobject.pincode, 'country': vendobject.country,
+                    'shipstreet': vendobject.shipstreet, 'shipcity': vendobject.shipcity, 'shippincode': vendobject.shippincode,
+                    'shipstate': vendobject.shipstate, 'shipcountry': vendobject.shipcountry}
+            list.append(dict)
+        else:
+            vendorbject = vendor.objects.get(firstname=a, lastname=b)
+            list = []
+            dict = {'vendorid': vendobject.vendorid, 'title': vendobject.title, 'firstname': vendobject.firstname,
+                    'lastname': vendobject.lastname, 'companyname': vendobject.companyname, 'gsttype': vendobject.gsttype,
+                    'gstin': vendobject.gstin, 'panno': vendobject.panno, 'email':vendobject.email, 'website': vendobject.website,
+                    'mobile': vendobject.mobile, 'street': vendobject.street, 'sourceofsupply':vendobject.sourceofsupply,
+                    'currency':vendobject.currency, 'openingbalance':vendobject.openingbalance, 'paymentterms':vendobject.paymentterms,
+                    'city': vendobject.city, 'state': vendobject.state, 'pincode': vendobject.pincode, 'country': vendobject.country,
+                    'shipstreet': vendobject.shipstreet, 'shipcity': vendobject.shipcity, 'shippincode': vendobject.shippincode,
+                    'shipstate': vendobject.shipstate, 'shipcountry': vendobject.shipcountry}
+            list.append(dict)
+        return JsonResponse(json.dumps(list), content_type="application/json", safe=False)
+    return redirect('getvendordata')
+
+def getperiod(request):
+    id = request.GET.get('id')
+    list = []
+    toda = date.today() + timedelta(days=int(id))
+    newdate = toda.strftime("%d-%m-%Y")
+    dict = {'newdate': newdate}
+    list.append(dict)
+    return JsonResponse(json.dumps(list), content_type="application/json", safe=False)
+
 def demo(request):
     if 'uid' in request.session:
         if request.session.has_key('uid'):
@@ -25938,6 +25921,32 @@ def create_item1(request):
         return render(request,'app1/addpurchaseorder.html')
     return redirect('/') 
 
+@login_required(login_url='regcomp')
+def gopurchaseorder(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        pordr = purchaseorder.objects.all()
+        return render(request,'app1/purchaseorder.html',{'cmp1': cmp1,'pordr':pordr})
+    return redirect('gopurchaseorder')
+
+@login_required(login_url='regcomp')
+def addpurchaseorder(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        vndr = vendor.objects.all()
+        itm = itemtable.objects.all()
+        return render(request,'app1/addpurchaseorder.html',{'cmp1': cmp1,'vndr':vndr,'item':itm})
+    return redirect('addpurchaseorder')
+
+
 def purchase_order(request):
     if 'uid' in request.session:
         if request.session.has_key('uid'):
@@ -25947,17 +25956,9 @@ def purchase_order(request):
         cmp1 = company.objects.get(id=request.session['uid'])
         if request.method == 'POST':
             vname = request.POST['vendor_name']
-            vdetails = request.POST['vendor_details']
+            cname = request.POST['company_name']
             baddress = request.POST['billing_address']
-            saddress = request.POST['shipping_address']
-            gsttype=request.POST['gsttype']
-            gstin=request.POST['gstin']
-            panno=request.POST['panno']
-            vsupply=request.POST['placeofsupply']
-            currency=request.POST['currency']
-            balance=request.POST['openingbalance']
-            payment=request.POST['paymentterms']
-            puchaseorder_no='1000'
+            puchaseorder_no= request.POST['puchaseorder_no']
             supply=request.POST['sourceofsupply']
             destsupply=request.POST['destiofsupply']
             branch=request.POST['branch']
@@ -25970,19 +25971,24 @@ def purchase_order(request):
             credit_period=request.POST['credit_period']
             due_date=request.POST['due_date']
             sub_total=request.POST['sub_total']
+            discount=request.POST['discount']
             sgst=request.POST['sgst']
-            cgst=request.POST['sgst']
-            igst=request.POST['sgst']
+            cgst=request.POST['cgst']
+            igst=request.POST['igst']
             tax_amount=request.POST['tax_amount']
+            tcs=request.POST['tcs']
+            tcs_amount=request.POST['tcs']
+            round_off=request.POST['round_off']
             grand_total=request.POST['grand_total']
+            note=request.POST['note']
 
-            porder = purchaseorder(vendor_name=vname,vendor_details=vdetails,billing_address=baddress,shipping_address=saddress,
-                                    gsttype=gsttype, gstin=gstin,panno=panno,placeofsupply=vsupply,currency=currency,
-                                    openingbalance=balance,paymentterms=payment,sourceofsupply=supply,destiofsupply=destsupply,
-                                    branch=branch,reference=reference,contact_address=contact_addr,contact_person=contact_prsn,
-                                    contact_number=contact_nmbr,date=date,deliver_date=deliver_dt,credit_period=credit_period,
-                                    due_date=due_date,sub_total=sub_total,sgst=sgst,cgst=cgst,igst=igst,tax_amount=tax_amount,
-                                    grand_total=grand_total)
+            porder = purchaseorder(vendor_name=vname,company_name=cname,billing_address=baddress,
+                                    sourceofsupply=supply,
+                                    destiofsupply=destsupply,branch=branch,reference=reference,contact_address=contact_addr,
+                                    contact_person=contact_prsn,contact_number=contact_nmbr,date=date,deliver_date=deliver_dt,
+                                    credit_period=credit_period,due_date=due_date,sub_total=sub_total,discount=discount,sgst=sgst,
+                                    cgst=cgst,igst=igst,tax_amount=tax_amount,tcs=tcs,tcs_amount=tcs_amount,round_off=round_off,
+                                    grand_total=grand_total,note=note)
             porder.save()
             porder.puchaseorder_no = int(porder.puchaseorder_no) + porder.porderid
             porder.save()
@@ -26014,6 +26020,114 @@ def viewpurchaseorder(request,id):
         else:
             return redirect('/')
         cmp1 = company.objects.get(id=request.session['uid'])
-        pordr=purchaseorder.objects.get(porderid=id) 
-        return render(request,'app1/view_prchsorder.html',{'cmp1': cmp1,'pordr':pordr})
+        pordr=purchaseorder.objects.get(porderid=id)
+        pitem = porder_item.objects.all().filter(pid=id)
+        return render(request,'app1/view_prchsorder.html',{'cmp1': cmp1,'pordr':pordr,'pitem':pitem})
+    return redirect('gopurchaseorder')
+
+@login_required(login_url='regcomp')
+def goeditpurchaseorder(request,id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        pordr=purchaseorder.objects.get(porderid=id)
+        pitem = porder_item.objects.all().filter(pid=id)
+        return render(request,'app1/editpurchaseorder.html',{'cmp1': cmp1,'pordr':pordr,'pitem':pitem})
+    return redirect('gopurchaseorder')
+
+@login_required(login_url='regcomp')
+def deletepurchasorder(request, id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        pordr=purchaseorder.objects.get(porderid=id)
+        pitem = porder_item.objects.all().filter(pid=id)
+        pordr.delete() 
+        pitem.delete() 
+        return redirect('gopurchaseorder')
+    return redirect('gopurchaseorder')
+
+def convertapproved(request,id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        pordr = purchaseorder.objects.get(porderid=id)
+        pordr.status = 'Approved'
+        pordr.save()
+        return redirect(viewpurchaseorder,id)
+    return redirect('/')
+
+def convertbilled(request,id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        pordr = purchaseorder.objects.get(porderid=id)
+        pordr.status = 'Billed'
+        pordr.save()
+        return redirect(viewpurchaseorder,id)
+    return redirect('/')
+
+def pdf(request):
+    pdf =html2pdf("app1/pdf.html")
+    return HttpResponse(pdf,content_type="application/pdf")
+
+def download1(request):
+    return response
+
+
+def download(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT,path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
+    
+
+def search(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+   
+        search = request.POST['search']
+        cloumn = request.POST['type']
+
+        if cloumn == '1' or search  == '':
+            return redirect('gopurchaseorder')    
+        else :
+            if cloumn == '2':
+                cmp1 = company.objects.get(id=request.session["uid"])
+                pordr = purchaseorder.objects.filter(vendor_name=search).all()
+
+                context = {
+                            'pordr' :pordr,
+                            'cmp1': cmp1
+                                }
+                return render(request,'app1/purchaseorder.html',context)
+            else:
+                if cloumn == '3':
+                    cmp1 = company.objects.get(id=request.session["uid"])
+                    pordr = purchaseorder.objects.filter(puchaseorder_no=search).all()
+
+                    context = {
+                            'pordr' :pordr,
+                            'cmp1': cmp1
+                                }
+                    return render(request,'app1/purchaseorder.html',context)        
     return redirect('gopurchaseorder')

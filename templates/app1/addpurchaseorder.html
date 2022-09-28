@@ -52,110 +52,33 @@
                                     <div class="valid-feedback">Looks good!</div> 
                                 </div>
                             </div>
+                            <div class="col-md-4 mt-2">
+                                <label for="validationCustom01">Company Name</label>
+                                <input type="text" name="company_name" id="cname" class="form-control">
+                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4 mt-3">
-                                <label for="">Vendor</label>
-                                <div class="form-row">
-                                    <textarea class="form-control" id="vendordetail" name="vendor_details" rows="5"></textarea>
-                                </div>
-                            </div>
                             <div class="col-md-4 mt-3">
                                 <label for="">Billing Address</label>
                                 <div class="form-row">
                                     <textarea class="form-control" id="billingaddress" name="billing_address" rows="5"></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-4 mt-3">
-                                <label for="">Shipping Address</label>
-                                <div class="form-row">
-                                    <textarea class="form-control" id="shippingaddress" name="shipping_address" rows="5"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-            
-                        <div class="row">
-                            <div class="col-md-4 mt-3">
-                                <label for="validationCustom04">GST Treatment</label>
-                                <select class="form-control" id="gsttype" name="gsttype"
-                                     required>
-                                    <option selected disabled value="">Choose..</option>
-                                    <option value="Registered Business - Regular">Registered Business - Regular</option>
-                                    <option value="Registered Business - Composition">Registered Business - Composition</option>
-                                    <option value="unregistered Business">unregistered Business</option>
-                                    <option value="Overseas">Overseas</option>
-                                    <option value="Special Economic Zone (SEZ)">Special Economic Zone (SEZ)</option>
-                                    <option value="Demed Exports">Demed Exports</option>
-                                    <option value="Tax Deductor">Tax Deductor</option>
-                                    <option value="SEZ Developer">SEZ Developer</option>
-                                </select>
-                            </div>
-                              
-                            <div class="col-md-4 mt-3">
-                                <div id="">
-                                    <label for="validationCustom05">GSTIN</label>
-                                    <input type="text" class="form-control"
-                                        id="gstin" name="gstin"
-                                        placeholder="29APPCK7465F1Z1">
-                                    <a href="https://services.gst.gov.in/services/searchtp"
-                                        target="_blank" style="color:#3dd5f3">Get Taxpayer details ?</a>
-                                    <div class="text-danger m-2" id=""></div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mt-3 hide" id="legal">
-                                <label for="">Business Legal Name</label>
-                                <input type="text" class="form-control" name="">
-                            </div>
-                            <div class="col-md-4 mt-3 hide" id="trade">
-                                <label for="">Business Trade Name</label>
-                                 <input type="text" class="form-control" name="">
-                             </div>
-                            <div class="col-md-4 mt-3">
-                                <label for="validationCustom03">PAN NO</label>
-                                <input type="text" class="form-control" id="panno" name="panno"
-                                     placeholder="APPCK7465F">
-                                <div class="text-danger m-2" id=""></div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 mt-2">
-                               <label for="">Place of Supply</label>
-                                <input type="text" class="form-control" id="placeofsupply" name="placeofsupply">
-                            </div>
-                            <div class="col-md-3 mt-2">
-                                <label for="">Currency</label>
-                                <div class="d-flex">
-                                    <input type="text" class="form-control" id="currency" name="currency" placeholder="INR - Indian Rupee"
-                                        id="validationCustom02" required>
-                                    <a href="#">
-                                        <button type="button" class="btn btn-outline-secondary ml-1">+</button>
-                                    </a>
-                                    <div class="valid-feedback">Looks good!</div> 
-                                </div>   
-                            </div>
-                            
-                            <div class="col-md-3 mt-2">
-                               <label for="">Opening Balance</label>
-                                <input type="number" class="form-control" id="openingbalance" name="openingbalance" placeholder="INR">
-                            </div>
-                            <div class="col-md-3 mt-2">
-                               <label for="">Payment Terms</label>
-                               <select class=" form-control" id="paymentterms" name="paymentterms" required>
-                                    <option></option>
-                                    <option value="Due on Receipt">Due on Receipt</option>
-                                    <option value="Net 15">NET15</option>
-                                    <option value="Net 30">NET30</option>
-                                    <option value="Net 60">NET60</option>
-                                </select>
-                                <div class="valid-feedback">Looks good!</div>
-                            </div>
                         </div>
                         <hr>
                         <br><br>
-                        <div class="card-title">
-                            <h4 class="mb-0">Purchase Order Details</h4>
+                        <div class="row">
+                            <div class="col-md-3 mt-2"><h5>Purchase Order Details</h5></div>
+                            <div class="col-md-3 mt-2"></div>
+                            <div class="col-md-3 mt-2">
+                                <label>Purchase Order Number</label>
+                                <div class="d-flex">
+                                    <input name="puchaseorder_no" type="number" class="form-control" placeholder="1000">
+                                    <a class="form-control" data-target="#porderno" data-toggle="modal" style="width: 60px; cursor: pointer;"><center><i class="fa fa-gear"></i></center></i></a>
+                                </div>
+                                
+                                
+                            </div>
                         </div>
                         <hr>
                         <div class="row">
@@ -301,12 +224,12 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-md-2"><h4>Items</h4></div>
+                            <div class="col-md-2"></div>
                             <div class="col-md-4"></div>
                             <div class="col-md-2"></div>
                             <div class="col-md-2"></div>
                         </div>  
-                        <hr>
+                
                         <div class="row clearfix">
                             <div class="col-md-12 table-responsive-md mt-3">
                                 <table class="table table-bordered table-hover mt-3" id="tab_logic">
@@ -348,25 +271,26 @@
                                                 class="form-control price" step="0.00" min="0">
                                             </td> 
                                             <td>
-                                                <select name="tax[]" id="tax1" class="form-control tax" onchange="filtertax()">
-                                                    <option id="ta8" value=0 text=" ">Choose</option>
-                                                    <option value=1 text=" ">28.0% GST(28%)</option>
-                                                    <option value=2 text=" ">18.0% GST(18%)</option>
-                                                    <option value=3 text=" ">12.0% GST(12%)</option>
-                                                    <option value=4 text=" ">06.0% GST(06%)</option>
-                                                    <option value=5 text=" ">05.0% GST(05%)</option>
-                                                    <option value=6 text=" ">03.0% GST(03%)</option>
-                                                    <option value=7 text=" ">0.25% GST(0.25%)</option>
-                                                    <option value="8" text=" ">28.0% IGST(28%)</option>
-                                                    <option value=9 text=" ">18.0% IGST(18%)</option>
-                                                    <option value=10 text=" ">12.0% IGST(12%)</option>
-                                                    <option value=11 text=" ">06.0% IGST(06%)</option>
-                                                    <option value=12 text=" ">05.0% IGST(05%)</option>
-                                                    <option value=13 text=" ">03.0% IGST(03%)</option>
-                                                    <option value=14 text=" ">0.25% IGST(0.25%)</option>
-                                                    <option value=0 text=" ">0.0% (0%)</option>
-                                                    <option value=0 text=" ">Exempt (0%)</option>
-                                                    <option value=0 text=" ">Out of Scope(0%)</option>
+                                                <select name="tax[]" id="tax" class="form-control tax" onchange="filtertax()">
+                                                    <option value="" selected>Choose</option>
+                                                    <option value="1">28.0% GST(28%)</option>
+                                                    <option value="2">28.0% IGST(28%)</option>
+                                                    <option value="3">18.0% GST(18%)</option>
+                                                    <option value="4">18.0% IGST(18%)</option>
+                                                    <option value="5">12.0% GST(12%)</option>
+                                                    <option value="6">12.0% IGST(12%)</option>
+                                                    <option value="7">06.0% GST(06%)</option>
+                                                    <option value="8">06.0% IGST(06%)</option>
+                                                    <option value="9">05.0% GST(05%)</option>
+                                                    <option value="10">05.0% IGST(05%)</option>
+                                                    <option value="11">03.0% GST(03%)</option>
+                                                    <option value="12">03.0% IGST(03%)</option>
+                                                    <option value="13">0.25% GST(0.25%)</option>
+                                                    <option value="14">0.25% IGST(0.25%)</option>
+                                                    <option value="0">0.0% GST(0%)</option>
+                                                    <option value="0">Exempt GST(0%)</option>
+                                                    <option value="0">Exempt GST(0%)</option>
+                                                    <option value="0">Out of Scope(0%)</option>
                                               </select>
                                             </td> 
                                             <td><input type="number" name='amount[]' id="total1" class="form-control total" 
@@ -397,7 +321,7 @@
                             <div class="col-md-6 mt-3">
                                 <label for="">Note</label>
                                 <div class="form-row">
-                                    <textarea class="form-control" rows="3"></textarea>
+                                    <textarea class="form-control" name="note" rows="3"></textarea>
                                 </div>
                                 <div class="notices mt-3">
                                     <div class="text-muted">NOTICE:</div>
@@ -415,41 +339,41 @@
                                     <div class="row container-fluid p-2 m-0">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Sub Total</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" step="any" name='sub_total' placeholder=0 
-                                            class="form-control" id="subtotal" readonly>
+                                            class="form-control" id="subtotal">
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
+                                    <div class="row container-fluid p-2 m-0">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Discount</label></div>
+                                        <div class="col-sm-8 mt-2"><input type="number" name='discount' step="any" id="disc1" placeholder=0 
+                                            class="form-control disc"/>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
                                     <div class="row container-fluid hide p-2 m-0" id="igst1">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">IGST</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='igst' step="any" id="igst" placeholder=0 
-                                            class="form-control" readonly />
+                                            class="form-control"/>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
                                     <div class="row container-fluid hide p-2 m-0" id="cgst1">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">CGST</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='cgst' step="any" id="cgst" placeholder=0 
-                                            class="form-control" readonly />
+                                            class="form-control"/>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
                                     <div class="row container-fluid hide p-2 m-0" id="sgst1">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">SGST</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='sgst' step="any" id="sgst" placeholder=0 
-                                            class="form-control" readonly />
+                                            class="form-control"/>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
-                                    <div class="row container-fluid p-2 m-0">
-                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Discount</label></div>
-                                        <div class="col-sm-8 mt-2"><input type="number" name='' step="any" id="disc" placeholder=0 
-                                            class="form-control disc"/>
-                                        </div>
-                                        <div class="col-sm-4 m-0 p-0"></div>
-                                    </div>
-                                    <div class="row container-fluid p-2 m-0">
-                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Round Off</label></div>
-                                        <div class="col-sm-8 mt-2"><input type="number" name='' step="any" id="" placeholder=0 
+                                    <div class="row container-fluid  p-2 m-0">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Tax Amount</label></div>
+                                        <div class="col-sm-8 mt-2"><input type="number" name='tax_amount' step="any" id="tax_amount" placeholder=0 
                                             class="form-control"/>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
@@ -463,16 +387,16 @@
                                             </select>
                                         </div>
                                         <div class="col-sm-4 mt-2">
-                                            <input type="number" id="tcs_amount" name='TCS' placeholder='0' class="form-control">
+                                            <input type="number" id="tcs_amount" name='tcs' placeholder='0' class="form-control">
                                         </div>
                                     </div>
-                                    <div class="row container-fluid  p-2 m-0">
-                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Tax Amount</label></div>
-                                        <div class="col-sm-8 mt-2"><input type="number" name='tax_amount' step="any" id="tax_amount" placeholder=0 
-                                            class="form-control" readonly />
+                                    <div class="row container-fluid p-2 m-0">
+                                        <div class="col-sm-4 mt-2"><a class="text-center" onclick="calc_roundoff()">Round Off</a></div>
+                                        <div class="col-sm-8 mt-2"><input type="number" name='round_off' step="any" id="round_off" placeholder=0 
+                                            class="form-control" />
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
-                                    </div>
+                                    </div><hr>
                                     <div class="row container-fluid  p-2 m-0">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Grand Total</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='grand_total' id="grandtotal" placeholder="0" step="any" 
@@ -499,13 +423,45 @@
                             <div class="col-md-4">
                                 <button class="btn btn-outline-info rounded-pill text-grey w-100 mt-3 mb-3"
                                         type="submit">
-                                    Submit form
+                                    Save as Draft
                                 </button>
                             </div>
                             <div class="col-md-4"></div>
                         </div>
                     {% endif %}
                 </form>
+
+                <div class="modal fade" id="porderno">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="background-color: #213b52;">
+                            <div class="modal-header">
+                                <h3 class="m-3">Prchase Order#</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Your Purchase Order number are set on auto-generate to save your time Are you shure about changing the setting ?</p>
+                            
+                                <div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" value="Taxable" name="taxpref">
+                                        <label class="form-check-label">Continue auto generated purchase order number</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" value="Tax Exempt" name="taxpref">
+                                        <label class="form-check-label">I will add them manually each time</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-info" data-dismiss="modal">Save</button>
+                                <button type="button" class="btn btn-outline-info" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>            
 
                 <div class="modal fade" id="newvendor">
                     <div class="modal-dialog modal-xl">
@@ -1526,16 +1482,9 @@
                 }).done(function(response) {
                 var json_data = JSON.parse(response);
                 for (key in json_data) {
-                    document.getElementById('gsttype').value = json_data[key]['gsttype']
-                    document.getElementById('gstin').value = json_data[key]['gstin']
-                    document.getElementById('panno').value = json_data[key]['panno']
-                    document.getElementById('placeofsupply').value = json_data[key]['sourceofsupply']
-                    document.getElementById('currency').value = json_data[key]['currency']
-                    document.getElementById('openingbalance').value = json_data[key]['openingbalance']
-                    document.getElementById('paymentterms').value = json_data[key]['paymentterms']
-                    document.getElementById('vendordetail').value = json_data[key]['firstname'] + ' ' + json_data[key]['lastname'] + '\n' + json_data[key]['companyname'] + '\n' + json_data[key]['email'] + '\n' + json_data[key]['website'] + '\n' + json_data[key]['mobile'];
+                    document.getElementById('cname').value = json_data[key]['companyname']
                     document.getElementById('billingaddress').value = json_data[key]['street'] + '\n' + json_data[key]['city'] + '\n' + json_data[key]['state'] + '\n' + json_data[key]['pincode'] + '\n' + json_data[key]['country'];
-                    document.getElementById('shippingaddress').value = json_data[key]['shipstreet'] + '\n' + json_data[key]['shipcity'] + '\n' + json_data[key]['shipstate'] + '\n' + json_data[key]['shippincode'] + '\n' + json_data[key]['shipcountry'];
+                    
                 }
                 })
             });
@@ -1608,6 +1557,12 @@
             $('#tax').on('keyup change', function() {
                 calc_total();
             });
+            $('#tcs').on('keyup change', function () {
+                calc_total();
+            });
+            $('#disc1').on('keyup change', function () {
+                calc_total();
+            });
         });
 
         function calc() {
@@ -1618,33 +1573,40 @@
                     var price = $(this).find('.price').val();
                     var tax = $(this).find('.tax').val();
                     var disc = $(this).find('.disc').val();
-                    
+
+                    temp=0
                     if (tax ==1)
                         tax=28
+                        temp=1
                     if (tax ==2)
-                        tax=18 
+                        tax=28 
                     if (tax ==3)
-                        tax=12 
-                    if (tax ==4)
-                        tax=6
-                    if (tax ==5)
-                        tax=5 
-                    if (tax ==6)
-                        tax=3
-                    if (tax ==7)
-                        tax=.25
-                    if (tax ==8)
-                        tax=28
-                    if (tax ==9)
                         tax=18 
-                    if (tax ==10)
+                        temp=1     
+                    if (tax ==4)
+                        tax=18
+                    if (tax ==5)
                         tax=12 
-                    if (tax ==11)
+                        temp=1 
+                    if (tax ==6)
+                        tax=12
+                    if (tax ==7)
+                        tax=6 
+                        temp=1 
+                    if (tax ==8)
                         tax=6
-                    if (tax ==12)
+                    if (tax ==9)
+                        tax=5
+                    if (tax ==10)
                         tax=5 
-                    if (tax ==13)
+                    if (tax ==11)
                         tax=3
+                        temp=1 
+                    if (tax ==12)
+                        tax=3
+                    if (tax ==13)
+                        tax=.25
+                        temp=1 
                     if (tax ==14)
                         tax=.25
                     if (tax ==0)
@@ -1652,6 +1614,8 @@
 
                     $(this).find('.total').val(parseFloat(qty * price));
                     $(this).find('.taxamount').val(parseFloat((qty * price) * (parseFloat(tax) / 100)));
+
+                    
                     calc_total();
                 }
             });
@@ -1666,6 +1630,7 @@
             cgst =0;
             sgst = 0;
             igst=0;
+            tcsamount = 0;
 
             taxamount = 0.0;
             $('.taxamount').each(function() {
@@ -1677,28 +1642,57 @@
             $('#cgst').val((taxamount/2).toFixed(2));
             $('#sgst').val((taxamount/2).toFixed(2));
             $('#igst').val(parseFloat(taxamount.toFixed(2)));
-
             $('#tax_amount').val(parseFloat(taxamount.toFixed(2)));
-            $('#grandtotal').val(parseFloat((taxamount + total).toFixed(2)));
-            $('#baldue').val(parseFloat((taxamount + total).toFixed(2)));
+            $('#tcs_amount').val(tcsamount.toFixed(2));
+            
+
+            tax_sum = total / 100 * $('#tax').val();
+            
+            if (temp==0)
+                $('#cgst').val((0).toFixed(2));
+                $('#sgst').val((0).toFixed(2));
+                
+            if (temp==1)
+                $('#cgst').val((taxamount/2).toFixed(2));
+                $('#sgst').val((taxamount/2).toFixed(2));
+            calc_tcs();
+        }
+        function calc_tcs() {
+            tcsamount = 0;
+    
+            var a = document.getElementById("tcs1").value
+            var discount = document.getElementById("disc1").value
+            
+            tcs=0
+    
+            tcs =a/100 * total
+            disc0=discount
+            
+            var amount =taxamount + total + tcs 
+            let x =Math.round(amount)
+            let y =Math.round(x-disc0)
+            
+            $('#tcs_amount').val(((a/100) *total).toFixed(2));
+            $('#grandtotal').val((y).toFixed(2));
+            $('#round_off').val((y).toFixed(2));   
         }
     </script>
 
     <script>
         function filtertax() {
-            var status = document.getElementById("tax1");
+            var status = document.getElementById("tax");
                 var a = status.value
                 console.log(a);
-                if( a == '8' || a == '9' || a == '10' | a == '11' || a == '12' || a == '13' || a == '14' ){
+                if( a == '1' || a == '3' || a == '5' | a == '7' || a == '9' || a == '11' || a == '13' || a== '0' ){
                     console.log(a);
 
-                    document.getElementById('cgst1').style.display = 'none';
-                    document.getElementById('sgst1').style.display = 'none';
-                    document.getElementById('igst1').style.display = 'flex';
-                } else {
                     document.getElementById('cgst1').style.display = 'flex';
                     document.getElementById('sgst1').style.display = 'flex';
                     document.getElementById('igst1').style.display = 'none';
+                } else {
+                    document.getElementById('cgst1').style.display = 'none';
+                    document.getElementById('sgst1').style.display = 'none';
+                    document.getElementById('igst1').style.display = 'flex';    
                 }
         }
     </script>
@@ -1801,7 +1795,17 @@
             var inventorytrack = document.getElementById("inventorytrack");
             inventorytrack.style.display = track.checked ? "flex" : "none";
 
-        }
+        } 
     </script>
+
+<script type="text/javascript">
+    $('.porder').click(function(e){
+        var result = confirm("Are you created purchase order number manually or user preference");
+
+        if(!result) {
+            e.preventDefault();
+        }
+    });
+</script>
     
 {% endblock %}

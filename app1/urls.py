@@ -369,6 +369,16 @@ urlpatterns = [
     re_path(r'^addpurchaseorder$',views.addpurchaseorder,name='addpurchaseorder'),
     re_path(r'^purchase_order$',views.purchase_order,name='purchase_order'),
     re_path(r'^viewpurchaseorder/(?P<id>\d+)$',views.viewpurchaseorder,name='viewpurchaseorder'),
+    re_path(r'^viewpurchaseorder/goeditpurchaseorder/(?P<id>\d+)$',views.goeditpurchaseorder,name='goeditpurchaseorder'),
+    re_path(r'^viewpurchaseorder/deletepurchasorder/(?P<id>\d+)$', views.deletepurchasorder, name='deletepurchasorder'),
 
-    re_path(r'^demo',views.demo,name='demo'),
+    re_path(r'^convertapproved/(?P<id>\d+)$',views.convertapproved,name='convertapproved'),
+    re_path(r'^convertbilled/(?P<id>\d+)$',views.convertbilled,name='convertbilled'),
+
+    re_path(r'^pdf$',views.pdf,name='pdf'),
+    re_path(r'^demo$',views.demo,name='demo'),
+    re_path(r'^search$',views.search,name='search'),
+    
+    re_path(r'^download$',views.download,name='download'),
+    re_path(r'^viewpurchaseorder/download1$',views.download1,name='download1'),
 ]
