@@ -19,7 +19,7 @@
         <div class="card radius-15">
             <div class="card-body">
                 <div class="card-title">
-                    <center><h3 class="mb-0">EDIT PURCHASE ORDER</h3></center>
+                    <center><h3 class="mb-0">EDIT BILL</h3></center>
                 </div>
                 <hr/>
             </div>
@@ -30,7 +30,7 @@
                     <h4 class="mb-0">Vendor Details</h4>
                 </div>
                 <hr/>
-                <form action="editpurchaseorder/{{ pordr.porderid }} {{pitem.pid}}" method="post" autocomplete="off">
+                <form action="edit_bill/{{ pbill.billid }} {{bitem.bid}}" method="post" autocomplete="off">
                     {% csrf_token %}
                     
                     {% if user.is_authenticated %}
@@ -38,7 +38,7 @@
                         <div class="row">
                             <div class="col-md-4 mt-2">
                                 <label for="validationCustom01">Select Vendor</label>
-                                <input type="text" value="{{ pordr.vendor_name }}" name="vendor_name" class="form-control">
+                                <input type="text" value="{{ pbill.vendor_name }}" name="vendor_name" class="form-control">
                             </div>
                         </div>
                         <div class="row">
@@ -46,19 +46,19 @@
                                 <label for="">Billing Address</label>
                                 <div class="form-row">
                                     <textarea class="form-control" id="billingaddress" value="" name="billing_address"
-                                    rows="5">{{ pordr.billing_address }}</textarea>
+                                    rows="5">{{ pbill.billing_address }}</textarea>
                                 </div>
                             </div>
                         </div>
                         <hr>
                         <br><br>
                         <div class="row">
-                            <div class="col-md-3 mt-2"><h5>Purchase Order Details</h5></div>
+                            <div class="col-md-3 mt-2"><h5>Bill Details</h5></div>
                             <div class="col-md-3 mt-2"></div>
                             <div class="col-md-3 mt-2">
-                                <label>Purchase Order Number</label>
+                                <label>Bill Number</label>
                                 <div class="d-flex">
-                                    <input name="puchaseorder_no" value="{{ pordr.puchaseorder_no }}" type="number" class="form-control" placeholder="1000">
+                                    <input name="bill_no" value="{{ pbill.bill_no }}" type="number" class="form-control" placeholder="1000">
                                     <a class="form-control" data-target="#porderno" data-toggle="modal" style="width: 60px; cursor: pointer;"><center><i class="fa fa-gear"></i></center></i></a>
                                 </div>    
                             </div>
@@ -68,7 +68,7 @@
                             <div class="col-md-3 mt-2">
                                 <label for="">Source of Supply</label>
                                 <select name="sourceofsupply" id="" class="form-control">
-                                    <option value="{{ pordr.sourceofsupply }}">{{ pordr.sourceofsupply }}</option>
+                                    <option value="{{ pbill.sourceofsupply }}">{{ pbill.sourceofsupply }}</option>
                                     <option value="[AN] Andaman and Nicobar Islads">[AN] Andaman and Nicobar Islads</option>
                                     <option value="[AD] Andhra Predhesh">[AD] Andhra Predhesh</option>
                                     <option value="[AR] Arunachal Predesh">[AR] Arunachal Predesh</option>
@@ -112,7 +112,7 @@
                             <div class="col-md-3 mt-2">
                                 <label for="">Destination of Supply</label>
                                 <select name="destiofsupply" id="" class="form-control">
-                                    <option value="{{ pordr.destiofsupply }}">{{ pordr.destiofsupply }}</option>
+                                    <option value="{{ pbill.destiofsupply }}">{{ pbill.destiofsupply }}</option>
                                     <option value="[AN] Andaman and Nicobar Islads">[AN] Andaman and Nicobar Islads</option>
                                     <option value="[AD] Andhra Predhesh">[AD] Andhra Predhesh</option>
                                     <option value="[AR] Arunachal Predesh">[AR] Arunachal Predesh</option>
@@ -155,25 +155,25 @@
                             </div>
                             <div class="col-md-3 mt-2">
                                 <label for="">Branch</label>
-                                <input type="text" class="form-control" value="{{ pordr.branch }}" name="branch" placeholder="">
+                                <input type="text" class="form-control" value="{{ pbill.branch }}" name="branch" placeholder="">
                             </div>
                             <div class="col-md-3 mt-2">
                                 <label for="">Reference</label>
-                                <input type="text" class="form-control" value="{{ pordr.reference }}" name="reference" placeholder="">   
+                                <input type="text" class="form-control" value="{{ pbill.reference }}" name="reference" placeholder="">   
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-md-3 mt-2"><h5>Deliver to Details</h5></div>
                             <div class="col-md-3 mt-2">
-                                <input type="text" name="contact_name" id="select1" value="{{ pordr.contact_name }}" class="form-control">
+                                <input type="text" value="{{ pbill.contact_name }}" name="contact_name" class="form-control">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 mt-2">
                                 <div class="form-row">
                                     <textarea class="form-control" id="deliverto" value="" name="deliverto"
-                                    rows="5">{{ pordr.deliverto }}</textarea>
+                                    rows="5">{{ pbill.deliverto }}</textarea>
                                 </div>
                             </div>
                         </div><hr>
@@ -181,16 +181,16 @@
                         <div class="row">
                             <div class="col-md-3 mt-2">
                                 <label for="">Date</label>
-                                <input type="date" class="form-control" value="{{ pordr.date | date:'Y-m-d' }}" name="date">
+                                <input type="date" class="form-control" value="{{ pbill.date | date:'Y-m-d' }}" name="date">
                             </div>
                             <div class="col-md-3 mt-2">
                                 <label for="">Expected Deliver Date</label>
-                                <input type="date" class="form-control" value="{{ pordr.deliver_date | date:'Y-m-d' }}" name="deliver_date">
+                                <input type="date" class="form-control" value="{{ pbill.deliver_date | date:'Y-m-d' }}" name="deliver_date">
                             </div>
                             <div class="col-md-3 mt-2">
                                 <label for="">Credit Period</label>
                                 <select class="custom-select" name="credit_period" id="termadd" onclick="showinp('newtrm', this)">
-                                    <option value="{{ pordr.credit_period }}">{{ pordr.credit_period }}</option>
+                                    <option value="{{ pbill.credit_period }}">{{ pbill.credit_period }}</option>
                                     <option value="0">Due on Receipt</option>
                                     <option value="15">NET15</option>
                                     <option value="30">NET30</option>
@@ -199,16 +199,9 @@
                             </div>
                             <div class="col-md-3 mt-2">
                                 <label>Due Date</label>
-                                <input type="text" id="duedat" value="{{ pordr.due_date }}" class="form-control" name="due_date">
+                                <input type="text" id="duedat" value="{{ pbill.due_date }}" class="form-control" name="due_date">
                             </div>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-2"><h4>Items</h4></div>
-                            <div class="col-md-4"></div>
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2"></div>
-                        </div>  
                         <hr>
                         <div class="row clearfix">
                             <div class="col-md-12 table-responsive-md mt-3">
@@ -224,7 +217,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="items-table-body">
-                                        {% for p in pitem %}
+                                        {% for p in bitem %}
                                         <tr>
                                             <td>{{ forloop.counter }}</td>
                                             <td style="width: 20%;">
@@ -295,10 +288,10 @@
                             <div class="col-md-6 mt-3">
                                 <label for="">Note</label>
                                 <div class="form-row">
-                                    <textarea class="form-control" name="note" rows="3">{{ pordr.note }}</textarea>
+                                    <textarea class="form-control" name="note" rows="3">{{ pbill.note }}</textarea>
                                 </div><br>
                                 <div>
-                                    <input type="file" class="form-control" name="file" value="{{ pordr.file }}">
+                                    <input type="file" class="form-control" name="file" value="{{ pbill.file }}">
                                 </div>
                                 <div class="notices mt-3">
                                     <div class="text-muted">NOTICE:</div>
@@ -316,42 +309,42 @@
                                     <div class="row container-fluid p-2 m-0">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Sub Total</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" step="any" name='sub_total' placeholder=0 
-                                            class="form-control" id="subtotal" value="{{ pordr.sub_total }}">
+                                            class="form-control" id="subtotal" value="{{ pbill.sub_total }}">
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
                                     <div class="row container-fluid p-2 m-0">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Discount</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='discount' step="any" id="disc1" placeholder=0 
-                                            class="form-control disc" value="{{ pordr.discount }}"/>
+                                            class="form-control disc" value="{{ pbill.discount }}"/>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
                                     <div class="row container-fluid  p-2 m-0" id="igst1">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">IGST</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='igst' step="any" id="igst" placeholder=0 
-                                            class="form-control" value="{{ pordr.igst }}"/>
+                                            class="form-control" value="{{ pbill.igst }}"/>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
                                     <div class="row container-fluid p-2 m-0" id="cgst1">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">CGST</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='cgst' step="any" id="cgst" placeholder=0 
-                                            class="form-control" value="{{ pordr.cgst }}"/>
+                                            class="form-control" value="{{ pbill.cgst }}"/>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
                                     <div class="row container-fluid p-2 m-0" id="sgst1">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">SGST</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='sgst' step="any" id="sgst" placeholder=0 
-                                            class="form-control" value="{{ pordr.sgst }}"/>
+                                            class="form-control" value="{{ pbill.sgst }}"/>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
                                     <div class="row container-fluid  p-2 m-0">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Tax Amount</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='tax_amount' step="any" id="tax_amount" placeholder=0 
-                                            class="form-control" value="{{ pordr.tax_amount }}"/>
+                                            class="form-control" value="{{ pbill.tax_amount }}"/>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
@@ -359,25 +352,25 @@
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">TCS</label></div>
                                         <div class="col-sm-4 mt-2">
                                             <select name="tcs" class="form-control" id="tcs1" onchange="calc_tcs()">
-                                                <option value="{{ pordr.tcs }}">{{ pordr.tcs }}</option>
+                                                <option value="{{ pbill.tcs }}">{{ pbill.tcs }}</option>
                                                 <option value="1">Cess 1%</option>
                                             </select>
                                         </div>
                                         <div class="col-sm-4 mt-2">
-                                            <input type="number" value="{{ pordr.tcs_amount }}" id="tcs_amount" name='tcs_amount' placeholder='0' class="form-control">
+                                            <input type="number" value="{{ pbill.tcs_amount }}" id="tcs_amount" name='tcs_amount' placeholder='0' class="form-control">
                                         </div>
                                     </div>
                                     <div class="row container-fluid p-2 m-0">
                                         <div class="col-sm-4 mt-2"><a class="text-center" onclick="calc_roundoff()">Round Off</a></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='round_off' step="any" id="round_off" placeholder=0 
-                                            class="form-control" value="{{ pordr.round_off }}"/>
+                                            class="form-control" value="{{ pbill.round_off }}"/>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div><hr>
                                     <div class="row container-fluid  p-2 m-0">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Grand Total</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='grand_total' id="grandtotal" placeholder="0" step="any" 
-                                            class="form-control" value="{{ pordr.grand_total }}" readonly>
+                                            class="form-control" value="{{ pbill.grand_total }}" readonly>
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div>
@@ -400,7 +393,7 @@
                             <div class="col-md-4">
                                 <button class="btn btn-outline-info rounded-pill text-grey w-100 mt-3 mb-3"
                                         type="submit">
-                                    Save as Draft
+                                    Save
                                 </button>
                             </div>
                             <div class="col-md-4"></div>

@@ -19,7 +19,7 @@
         <div class="card radius-15">
             <div class="card-body">
                 <div class="card-title">
-                    <center><h3 class="mb-0">NEW PURCHASE ORDER</h3></center>
+                    <center><h3 class="mb-0">NEW BILL</h3></center>
                 </div>
                 <hr/>
             </div>
@@ -30,7 +30,7 @@
                     <h4 class="mb-0">Vendor Details</h4>
                 </div>
                 <hr/>
-                <form action="{% url 'purchase_order' %}" method="post" autocomplete="off">
+                <form action="{% url 'createbill' %}" method="post" autocomplete="off">
                     {% csrf_token %}
                     
                     {% if user.is_authenticated %}
@@ -64,12 +64,12 @@
                         <hr>
                         <br><br>
                         <div class="row">
-                            <div class="col-md-3 mt-2"><h5>Purchase Order Details</h5></div>
+                            <div class="col-md-3 mt-2"><h5>Bill Details</h5></div>
                             <div class="col-md-3 mt-2"></div>
                             <div class="col-md-3 mt-2">
-                                <label>Purchase Order Number</label>
+                                <label>Bill Number</label>
                                 <div class="d-flex">
-                                    <input name="puchaseorder_no" type="number" class="form-control" placeholder="1000">
+                                    <input name="" type="number" class="form-control" placeholder="1000">
                                     <a class="form-control" data-target="#porderno" data-toggle="modal" style="width: 60px; cursor: pointer;"><center><i class="fa fa-gear"></i></center></i></a>
                                 </div>
                                 
@@ -193,7 +193,7 @@
                                     <textarea class="form-control" id="deliverto" name="deliverto" rows="5"></textarea>
                                 </div>
                             </div>
-                        </div>
+                        </div><hr>
                         
                         <div class="row">
                             <div class="col-md-3 mt-2">
@@ -261,7 +261,10 @@
                                                     </a>
                                                 </div>
                                             </td>
-                                            <!-- <td><input type="text" name="hsn[]" id="hsn1" class="form-control"></td> -->
+                                            <!-- <td>
+                                                <input type="number" name='hsn[]' id="hsn" placeholder='HSN Code' 
+                                                class="form-control">
+                                            </td>  -->
                                             <td>
                                                 <input type="number" name='quantity[]' onchange="qtychange1(this)" placeholder='Enter Qty'
                                                 id="qty1" class="form-control qty" step=0 min=0>
@@ -1452,10 +1455,11 @@
                     id: select
                 }
                 }).done(function(response) {
-                    var json_data = JSON.parse(response);
-                    for (key in json_data) {
-                        document.getElementById('billingaddress').value = json_data[key]['street'] + '\n' + json_data[key]['city'] + '\n' + json_data[key]['state'] + '\n' + json_data[key]['pincode'] + '\n' + json_data[key]['country'];    
-                    }
+                var json_data = JSON.parse(response);
+                for (key in json_data) {
+                    document.getElementById('billingaddress').value = json_data[key]['street'] + '\n' + json_data[key]['city'] + '\n' + json_data[key]['state'] + '\n' + json_data[key]['pincode'] + '\n' + json_data[key]['country'];
+                    
+                }
                 })
             });
 
@@ -1471,22 +1475,6 @@
                     var json_data = JSON.parse(response);
                     for (key in json_data) {
                     document.getElementById('deliverto').value = json_data[key]['email'] + '\n' + json_data[key]['mobile'] + '\n' + json_data[key]['street'] + '\n' + json_data[key]['city'] + '\n' + json_data[key]['state'];
-                    }
-                })
-            });
-
-            $('#itmlst').on('change', function() {
-                select = $('#itmlst').val();
-                $.ajax({
-                type: "GET",
-                url: "{% url 'getitemdata' %}",
-                data: {
-                    id: select
-                }
-                }).done(function(response) {
-                    var json_data = JSON.parse(response);
-                    for (key in json_data) {
-                        document.getElementById('hsn1').value = json_data[key]['hsn'];    
                     }
                 })
             });
@@ -1574,6 +1562,7 @@
                     var qty = $(this).find('.qty').val();
                     var price = $(this).find('.price').val();
                     var tax = $(this).find('.tax').val();
+                    var disc = $(this).find('.disc').val();
 
                     var xyz = document.getElementById("tax").value
 
@@ -1592,7 +1581,7 @@
                     if(xyz ==13 || xyz ==14  )
                         tax=.25 
                     if(xyz ==15 )
-                        tax=.25     
+                        tax=.25        
 
                     $(this).find('.total').val(parseFloat(qty * price));
                     $(this).find('.taxamount').val(parseFloat((qty * price) * (parseFloat(tax) / 100)));
@@ -1613,6 +1602,7 @@
             sgst = 0;
             igst=0;
             tcsamount = 0;
+
             taxamount = 0.0;
             $('.taxamount').each(function() {
                 taxamount += parseFloat($(this).val());
@@ -1621,10 +1611,8 @@
             $('#subtotal').val(parseFloat(total.toFixed(2)));
             $('#tax_amount').val(parseFloat(taxamount.toFixed(2)));
             $('#tcs_amount').val(tcsamount.toFixed(2));
-            
 
             tax_sum = total / 100 * $('#tax').val();
-
             calc_tcs();
         }
         function calc_tcs() {
@@ -1644,10 +1632,11 @@
             
             $('#tcs_amount').val(((a/100) *total).toFixed(2));
             $('#grandtotal').val((y).toFixed(2));
-            $('#round_off').val((y).toFixed(2));  
-            
+            $('#round_off').val((y).toFixed(2));   
+
             test()
         }
+
         function test(){
             var bc = document.getElementById("tax").value
             d=0
@@ -1783,15 +1772,5 @@
 
         } 
     </script>
-
-<script type="text/javascript">
-    $('.porder').click(function(e){
-        var result = confirm("Are you created purchase order number manually or user preference");
-
-        if(!result) {
-            e.preventDefault();
-        }
-    });
-</script>
     
 {% endblock %}

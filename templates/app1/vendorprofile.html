@@ -2,129 +2,200 @@
 {% block body %}
     {% load static %}
 
+    <style>
+        .card-registration .select-input.form-control[readonly]:not([disabled]) {
+            font-size: 1rem;
+            line-height: 2.15;
+            padding-left: .75em;
+            padding-right: .75em;
+        }
+        .card-registration .select-arrow {
+            top: 13px;
+        }
+        .bg-grey {
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        @media (min-width: 992px) {
+            .card-registration-2 .bg-grey {
+                border-top-right-radius: 16px;
+                border-bottom-right-radius: 16px;
+            }
+        }
+        @media (max-width: 991px) {
+            .card-registration-2 .bg-grey {
+                border-bottom-left-radius: 16px;
+                border-bottom-right-radius: 16px;
+            }
+        }
+        .vl {
+            border-left: 6px solid gray;
+        }
+    </style>
+
     <div class="page-content">
-        <div class="card radius-15">
-            <div class="card-body">
-                <div class="card-title">
-                    <center><h3 class="mb-0">VENDOR PROFILE</h3></center>
-                </div>
-                <hr/>
-            </div>
-        </div>
-        <div class="card radius-15" style="background-color: #243e54;">
-            <div class="card-body">
-                <div class="card-title">
-                    <h4 class="mb-0">{{ cmp1.cname }}</h4>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-4 p-4">
-                        <img src="https://multichannelmerchant.com/wp-content/uploads/2019/09/stupid-vendor-image-with-scrabble-tiles-feature.jpg"
-                        width="100%" height="100%">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-4 mt-3"></div>
-                            <div class="col-md-4 mt-3"><h4><b>PERSONAL INFO</b></h4></div>
-                            <div class="col-md-4 mt-3"></div>
-                            <div class="col-md-3 mt-3">
-                                <label>Title : {{ vndr.title }}</label>
+        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+            <div class="card-body p-0">
+                <div class="row g-0">
+                    <div class="col-lg-8">
+                        <div class="p-5">
+                            <div class="d-flex justify-content-between align-items-center mb-5">
+                                <h1 class="fw-bold mb-0 text-black">{{ vndr.title }}. {{ vndr.firstname }} {{ vndr.lastname }}</h1>
+                                <h6 class="mb-0 text-muted">{{ cmp1.cname }}</h6>
                             </div>
-                            <div class="col-md-3 mt-3">
-                                <label>First Name : {{ vndr.firstname }}</label>
+                            <hr class="my-4">
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-2 mt-3">
+                                    <h6 class="mb-0">Company</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ vndr.companyname }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ vndr.email }}</p>
+                                </div>
                             </div>
-                            <div class="col-md-3 mt-3">
-                                <label>Last Name :{{ vndr.lastname }}</label>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-2 mt-3">
+                                    <h6 class="mb-0">Mobile</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ vndr.mobile }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Website</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ vndr.website }}</p>
+                                </div>
                             </div>
-                            <div class="col-md-3 mt-3">
-                                <label>Company : {{ vndr.companyname }}</label>
+                            <hr class="my-4">
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-4 mt-3">
+                                    <h5 style="border-bottom: 1px solid rgba(128, 128, 128, 0.6); width: fit-content;">Billing Address</h5>
+                                </div>
+                                <div class="col-md-4 mt-3"></div>
+                                <div class="col-md-4 mt-3"></div>
+
+                                <div class="col-md-2 mt-3">
+                                    <h6 class="mb-0">Street</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ vndr.street }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">City</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ vndr.city }}</p>
+                                </div>
                             </div>
-                            <div class="col-md-4 mt-3">
-                                <label>Email : {{ vndr.email }}</label>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-2 mt-3">
+                                    <h6 class="mb-0">State</h6>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ vndr.state }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Pincode</h6>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ vndr.pincode }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Country</h6>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ vndr.country }}</p>
+                                </div>
+                            </div><hr>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-4 mt-3">
+                                    <h5 style="border-bottom: 1px solid rgba(128, 128, 128, 0.6); width: fit-content;">Shipping Address</h5>
+                                </div>
+                                <div class="col-md-4 mt-3"></div>
+                                <div class="col-md-4 mt-3"></div>
+
+                                <div class="col-md-2 mt-3">
+                                    <h6 class="mb-0">Street</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ vndr.shipstreet }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">City</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ vndr.shipcity }}</p>
+                                </div>
                             </div>
-                            <div class="col-md-4 mt-3">
-                                <label>Mobile Number : {{ vndr.mobile }}</label>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-2 mt-3">
+                                    <h6 class="mb-0">State</h6>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ vndr.shipstate }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Pincode</h6>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ vndr.shippincode }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Country</h6>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ vndr.shipcountry }}</p>
+                                </div>
                             </div>
-                            <div class="col-md-4 mt-3">
-                                <label>Website : {{ vndr.website }}</label>
-                            </div>
-                
-                            <div class="col-md-4 mt-3"><h5><b>Billing Address</b></h5></div>
-                            <div class="col-md-4 mt-3"></div>
-                            <div class="col-md-4 mt-3"></div>
-                            <div class="col-md-4 mt-3">
-                                <label>Street : {{ vndr.street }} </label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <label>City : {{ vndr.city }}</label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <label>State : {{ vndr.state }}</label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <label>Pincode : {{ vndr.pincode }}</label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <label>Country : {{ vndr.country }}</label>
-                            </div>
-                            <div class="col-md-4 mt-3"></div>
-                            <div class="col-md-4 mt-3"><h5><b>Shipping Address</b></h5></div>
-                            <div class="col-md-4 mt-3"></div>
-                            <div class="col-md-4 mt-3"></div>
-            
-                            <div class="col-md-4 mt-3">
-                                <label>Street : {{ vndr.shipstreet }}</label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <label>City : {{ vndr.shipcity }}</label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <label>State : {{ vndr.shipstate }}</label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <label>Pincode : {{ vndr.shippincode }}</label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <label>Country : {{ vndr.shipcountry }}</label>
-                            </div>
-                            <div class="col-md-4 mt-3"></div>
-                            <div class="col-md-4 mt-3"></div>
-                            <div class="col-md-4 mt-3"><h5><b>GST DETAILS</b></h5></div>
-                            <div class="col-md-4 mt-3"></div>
-                            <div class="col-md-4 mt-3">
-                                <label>GST Type : {{ vndr.gsttype }}</label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <label>GSTIN : {{ vndr.gstin }}</label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <label>Pan Number : {{ vndr.panno }}</label>
-                            </div>
-                            <div class="col-md-3 mt-3">
-                                <label>Sorce Of Supply : {{ vndr.sourceofsupply }}</label>
-                            </div>
-                            <div class="col-md-3 mt-3">
-                                <label>Currency : {{ vndr.currency }}</label>
-                            </div>
-                            <div class="col-md-3 mt-3">
-                                <label>Opening Balance : {{ vndr.openingbalance }}</label>
-                            </div>
-                            <div class="col-md-3 mt-3">
-                                <label>Payment Terms : {{ vndr.paymentterms }}</label> 
-                            </div>
+                            <hr class="my-4">
                         </div>
-                        <div class="row">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-4">
-                                <a href="{% url 'goeditvendor' vndr.vendorid %}" class="btn btn-outline-info rounded-pill text-grey w-100 mt-3 mb-3" role="button">
-                                    Edit Profile
-                                </a>
+                    </div>
+                    <div class="col-lg-4 bg-grey">
+                        <div class="p-5">
+                            <h3 class="fw-bold mb-5 mt-2 pt-1">GST</h3>
+                            <hr class="my-4">
+                            <div class="d-flex justify-content-between mb-4">
+                                <h5 class="">GSTIN</h5>
+                                <h6>{{ vndr.gstin }}</h6>
                             </div>
-                            <div class="col-md-4"></div>
+                            <h5 class="mb-3">GST Type</h5>
+                            <div class="mb-4 pb-2">
+                                {{ vndr.gsttype }}
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h5 class="">PAN Number</h5>
+                                <h6>{{ vndr.panno }}</h6>
+                            </div>
+                            <hr class="my-4">
+                            <div class="d-flex justify-content-between mb-5">
+                                <h6 class="">Sorce Of Supply</h6>
+                                <h6>{{ vndr.sourceofsupply }}</h6>
+                            </div>
+                            <div class="d-flex justify-content-between mb-5">
+                                <h6 class="">Currency</h6>
+                                <h6>{{ vndr.currency }}</h6>
+                            </div>
+                            <div class="d-flex justify-content-between mb-5">
+                                <h6 class="">Opening Balance</h6>
+                                <h6>{{ vndr.openingbalance }}</h6>
+                            </div>
+                            <div class="d-flex justify-content-between mb-5">
+                                <h6 class="">Payment Terms</h6>
+                                <h6>{{ vndr.paymentterms }}</h6>
+                            </div>
+                            <a href="{% url 'goeditvendor' vndr.vendorid %}" class="btn btn-outline-info rounded-pill text-grey w-100 mt-3 mb-3" role="button">
+                                Edit Profile
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 {% endblock %}

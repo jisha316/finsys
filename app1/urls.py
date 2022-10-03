@@ -361,6 +361,7 @@ urlpatterns = [
     re_path(r'^deletevendor/(?P<id>\d+)$', views.deletevendor, name='deletevendor'),
 
     re_path(r'^getvendordata$',views.getvendordata,name='getvendordata'),
+    re_path(r'^getitemdata$',views.getitemdata,name='getitemdata'),
     re_path(r'^getperiod$',views.getperiod,name='getperiod'),
     re_path(r'^vendordetails1$',views.vendordetails1,name='vendordetails1'),
     re_path(r'^create_item1$',views.create_item1,name='create_item1'),
@@ -371,14 +372,28 @@ urlpatterns = [
     re_path(r'^viewpurchaseorder/(?P<id>\d+)$',views.viewpurchaseorder,name='viewpurchaseorder'),
     re_path(r'^viewpurchaseorder/goeditpurchaseorder/(?P<id>\d+)$',views.goeditpurchaseorder,name='goeditpurchaseorder'),
     re_path(r'^viewpurchaseorder/deletepurchasorder/(?P<id>\d+)$', views.deletepurchasorder, name='deletepurchasorder'),
+    re_path(r'^viewpurchaseorder/goeditpurchaseorder/editpurchaseorder/(?P<id>\d+)$', views.editpurchaseorder, name='editpurchaseorder'),
 
     re_path(r'^convertapproved/(?P<id>\d+)$',views.convertapproved,name='convertapproved'),
     re_path(r'^convertbilled/(?P<id>\d+)$',views.convertbilled,name='convertbilled'),
 
     re_path(r'^pdf$',views.pdf,name='pdf'),
     re_path(r'^demo$',views.demo,name='demo'),
-    re_path(r'^search$',views.search,name='search'),
-    
-    re_path(r'^download$',views.download,name='download'),
-    re_path(r'^viewpurchaseorder/download1$',views.download1,name='download1'),
+    re_path(r'^getdata2$',views.getdata2,name='getdata2'),   
+
+    re_path(r'^billing$',views.billing,name='billing'),
+    re_path(r'^addbilling$',views.addbilling,name='addbilling'),
+    re_path(r'^createbill$',views.createbill,name='createbill'),
+    re_path(r'^viewbill/(?P<id>\d+)$',views.viewbill,name='viewbill'),
+    re_path(r'^viewbill/deletebill/(?P<id>\d+)$',views.deletebill,name='deletebill'),
+    re_path(r'^billconvert/(?P<id>\d+)$',views.billconvert,name='billconvert'),
+    re_path(r'^viewbill/goeditbill/(?P<id>\d+)$',views.goeditbill,name='goeditbill'),
+    re_path(r'^viewbill/goeditbill/edit_bill/(?P<id>\d+)$',views.edit_bill,name='edit_bill'),
+
+    re_path(r'^goexpenses$',views.goexpenses,name='goexpenses'),
+    re_path(r'^addexpenses$',views.addexpenses,name='addexpenses'),
+    re_path(r'^create_expense$',views.create_expense,name='create_expense'),
+    re_path(r'^viewexpense/(?P<id>\d+)$',views.viewexpense,name='viewexpense'),
+    re_path(r'^goeditexpense/(?P<id>\d+)$',views.goeditexpense,name='goeditexpense'),
+
 ]

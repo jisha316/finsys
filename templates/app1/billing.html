@@ -9,7 +9,7 @@
             <div class="card radius-15">
                 <div class="card-body">
                     <div class="card-title">
-                        <center><h2 class="mb-0">PURCHASE ORDER</h2></center>
+                        <center><h2 class="mb-0">BILL</h2></center>
                         <hr>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                             <!-- <input type="text" id="search" placeholder="Search for names.." title="Type in a name"> -->
                         </div>
                         <div class="btn-group col-md-2">
-                            <a href="{% url 'addpurchaseorder' %}" class="btn btn-outline-info" role="button">New</a>
+                            <a href="{% url 'addbilling' %}" class="btn btn-outline-info" role="button">New</a>
                         </div>
                     </div>
 
@@ -46,7 +46,7 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Branch</th>
-                                <th>Purchase Order Number</th>
+                                <th>Bill Number</th>
                                 <th>Reference</th>
                                 <th>Vendor Name</th>
                                 <th>Status</th>
@@ -55,17 +55,17 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for p in pordr %}
+                            {% for p in pbill %}
                             <tr>
                                 <th>{{ p.date }}</th>
                                 <td>{{ p.branch }}</td>
-                                <td>{{ p.puchaseorder_no }}</a></td>
+                                <td>{{ p.bill_no }}</a></td>
                                 <td>{{ p.reference }}</td>
                                 <td>{{ p.vendor_name }}</td>
-                                <td><a href="viewpurchaseorder/{{ p.porderid }}">{{ p.status }}</a></td>
+                                <td><a href="viewbill/{{ p.billid }}">{{ p.status }}</a></td>
                                 <td>{{ p.deliver_date }}</td>
                                 <td>{{ p.grand_total }}</td>
-                            </tr>
+                            </tr> 
                             {% endfor %}
                             </tbody>
                         </table>
