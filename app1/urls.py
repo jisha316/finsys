@@ -395,5 +395,7 @@ urlpatterns = [
     re_path(r'^create_expense$',views.create_expense,name='create_expense'),
     re_path(r'^viewexpense/(?P<id>\d+)$',views.viewexpense,name='viewexpense'),
     re_path(r'^goeditexpense/(?P<id>\d+)$',views.goeditexpense,name='goeditexpense'),
+    re_path(r'^goeditexpense/editexpense/(?P<id>\d+)$',views.editexpense,name='editexpense'),
+    re_path(r'^deleteexpense/(?P<id>\d+)$', views.deleteexpense, name='deleteexpense'),
 
 ]

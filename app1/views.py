@@ -26530,3 +26530,46 @@ def goeditexpense(request,id):
                 }
         return render(request,'app1/editexpense.html',context)
     return redirect('/')
+
+def editexpense(request,id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        if request.method == 'POST':
+            expnce=purchase_expense.objects.get(expenseid=id)
+            expnce.date = request.POST['date']
+            expnce.expenseaccount = request.POST['expenseaccount']
+            expnce.expensetype = request.POST['expensetype']
+            expnce.hsn_sac = request.POST['hsn_sac']
+            expnce.amount = request.POST['amount']
+            expnce.paidthrough = request.POST['paidthrough']
+            expnce.vendor = request.POST['vendor']
+            expnce.gsttype = request.POST['gsttype']
+            expnce.sourceofsupply=request.POST['sourceofsupply']
+            expnce.destinofsupply=request.POST['destinofsupply']
+            expnce.customer=request.POST['customer']
+            expnce.tax=request.POST['tax']
+            expnce.reference=request.POST['reference']
+            expnce.note=request.POST['note']
+
+            expnce.save()
+
+            return redirect('goexpenses')
+        return render(request,'app1/goexpenses.html',{'cmp1': cmp1})
+    return redirect('/') 
+
+@login_required(login_url='regcomp')
+def deleteexpense(request, id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        expnce=purchase_expense.objects.get(expenseid=id)
+        expnce.delete() 
+        return redirect('goexpenses')
+    return redirect('/')

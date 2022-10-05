@@ -12,24 +12,24 @@
         <div class="card radius-15">
             <div class="card-body">
                 <div class="card-title">
-                    <center><h3 class="mb-0">EDIT EXPENSE</h3></center>
+                    <center><h3 class="mb-0">NEW EXPENSE</h3></center>
                 </div>
                 <hr/>
             </div>
         </div>
         <div class="card radius-15" style="background-color: #243e54;">
             <div class="card-body">
-                <form action="editexpense/{{expnce.expenseid }}" method="post" autocomplete="off">
+                <form action="{% url 'create_expense' %}" method="post" autocomplete="off">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-md-3 mt-2">
                             <label for="validationCustom01">Date</label>
-                            <input type="date" class="form-control" value="{{ expnce.date|date:'Y-m-d' }}" name="date">
+                            <input type="date" class="form-control" id="date" name="date">
                         </div>
                         <div class="col-md-3 mt-2">
                             <label for="">Expense Account</label>
                             <select class="form-control" name="expenseaccount">
-                                <option value="{{ expnce.expenseaccount }}">{{ expnce.expenseaccount }}</option>
+                                <option selected disabled>Choose..</option>
                                 <option value="Advertising and Marketing">Advertising and Marketing</option>
                                 <option value="Audit Fee">Audit Fee</option>
                                 <option value="Automobile Expense">Automobile Expense</option>
@@ -47,16 +47,16 @@
                             </select>
                         </div>
                         <div class="col-md-3 mt-2">
-                             <label for="">Expense Type</label><br>
-                             <select name="expensetype" id="" class="form-control">
-                                <option value="{{ expnce.expensetype }}">{{ expnce.expensetype }}</option>
+                             <label for="">Expense Type</label>
+                            <select name="expensetype" id="" class="form-control">
+                                <option selected disabled>Choose..</option>
                                 <option value="Goods">Goods</option>
                                 <option value="Services">Services</option>
-                            </select>
+                            </select>   
                         </div>
                         <div class="col-md-3 mt-2">
                             <label for="">HSN/SAC</label>
-                            <input type="text" name="hsn_sac" value="{{ expnce.hsn_sac }}" class="form-control">
+                            <input type="text" name="hsn_sac" class="form-control">
                         </div> 
                     </div><hr>
                     <div class="row">
@@ -64,13 +64,13 @@
                             <label for="">Amount</label>
                             <div class="d-flex">
                                 <p style="width: 60px;" class="form-control">INR</p>
-                                <input type="number" name="amount" value="{{ expnce.amount }}" class="form-control">
+                                <input type="number" name="amount" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-4 mt-3">
                             <label for="">Paid Through</label>
                             <select class="form-control" name="paidthrough">
-                                <option value="{{ expnce.paidthrough }}">{{ expnce.paidthrough }}</option>
+                                <option selected disabled>Choose..</option>
                                 <option value="By Bank">By Bank</option>
                                 <option disabled>By Cash</option>
                                 <option value="Petty Cash">Petty Cash</option>
@@ -80,7 +80,7 @@
                         <div class="col-md-4 mt-3">
                             <label for="">Vendor</label>
                             <select name="vendor" id="vendor" class="form-control" onchange="showvendor()">
-                                <option value="{{ expnce.vendor }}">{{ expnce.vendor }}</option>
+                                <option value="Null" selected>Select Vendor</option>
                                 {% for v in vndr %}
                                 <option value="{{ v.firstname }} {{ v.lastname }}">{{ v.firstname }} {{ v.lastname }}</option>
                                 {% endfor %}
@@ -91,7 +91,7 @@
                         <div class="col-md-4 mt-3">
                             <label for="validationCustom04">GST Treatment</label>
                             <select class="form-control" id="gsttyp" name="gsttype">
-                                <option value="{{ expnce.gsttype }}">{{ expnce.gsttype }}</option>
+                                <option selected disabled value="">Choose..</option>
                                 <option value="Registered Business - Regular">Registered Business - Regular</option>
                                 <option value="Registered Business - Composition">Registered Business - Composition</option>
                                 <option value="unregistered Business">unregistered Business</option>
@@ -105,7 +105,7 @@
                         <div class="col-md-4 mt-3">
                             <label for="">Source of Supply</label>
                             <select name="sourceofsupply" id="" class="form-control">
-                                <option value="{{ expnce.sourceofsupply }}">{{ expnce.sourceofsupply }}</option>
+                                <option selected disabled>Choose..</option>
                                 <option value="[AN] Andaman and Nicobar Islads">[AN] Andaman and Nicobar Islads</option>
                                 <option value="[AD] Andhra Predhesh">[AD] Andhra Predhesh</option>
                                 <option value="[AR] Arunachal Predesh">[AR] Arunachal Predesh</option>
@@ -149,7 +149,7 @@
                         <div class="col-md-4 mt-3">
                             <label for="">Destination of Supply</label>
                             <select name="destinofsupply" id="" class="form-control">
-                                <option value="{{ expnce.destinofsupply }}">{{ expnce.destinofsupply }}</option>
+                                <option selected disabled>Choose..</option>
                                 <option value="[AN] Andaman and Nicobar Islads">[AN] Andaman and Nicobar Islads</option>
                                 <option value="[AD] Andhra Predhesh">[AD] Andhra Predhesh</option>
                                 <option value="[AR] Arunachal Predesh">[AR] Arunachal Predesh</option>
@@ -195,7 +195,7 @@
                         <div class="col-md-3 mt-3">
                             <label for="">Customer</label>
                             <select name="customer" id="select" class="form-control">
-                                <option value="{{ expnce.customer }}">Select Customer</option>
+                                <option selected disabled>Select Vendor</option>
                                 {% for c in cust %}
                                 <option value="{{ c.firstname }} {{ c.lastname }}">{{ c.firstname }} {{ c.lastname }}</option>
                                 {% endfor %}
@@ -204,7 +204,7 @@
                         <div class="col-md-3 mt-3">
                             <label for="">Tax</label>
                             <select name="tax" id="tax" class="form-control">
-                                <option value="{{ expnce.tax }}">{{ expnce.tax }}</option>
+                                <option value="" selected>Choose</option>
                                 <option value="28.0% GST">28.0% GST(28%)</option>
                                 <option value="28.0% IGST">28.0% IGST(28%)</option>
                                 <option value="18.0% GST">18.0% GST(18%)</option>
@@ -227,13 +227,19 @@
                         </div>
                         <div class="col-md-3 mt-3">
                             <label for=""># Reference</label>
-                            <input type="text" name="reference" value="{{ expnce.reference }}" class="form-control">
+                            <input type="text" name="reference" class="form-control">
                         </div>
                         <div class="col-md-3 mt-3">
-                            <label for="">Note</label>
-                            <textarea class="form-control" name="note">{{ expnce.note }}</textarea>
+                            <label for="">Upload File</label>
+                            <input type="file" name="file" class="form-control">
                         </div>
                     </div><hr>
+                    <div class="row">
+                        <div class="col-md-4 mt-3">
+                            <label for="">Note</label>
+                            <textarea class="form-control" name="note"></textarea>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
@@ -251,6 +257,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
+        $('#date').val(new Date().toJSON().slice(0,10));
 
         function hidinput(divId, element) {
             if (element.value == 'unregistered Business' || element.value == 'Consumer' || element.value == 'Overseas') {
