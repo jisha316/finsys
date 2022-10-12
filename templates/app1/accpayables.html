@@ -159,6 +159,19 @@
 
                                     {% endfor %}
 
+                                    {% for pbl in purchasebill %}
+                                        <tr>
+                                            <td class="center text-dark">{{ pbl.vendor_name }}</td>
+                                            <td class="center text-dark">Bill Balance</td>
+                                            <td class="center text-dark">{{ pbl.t1 }}</td>
+                                            <td class="center text-dark"></td>
+                                            <td class="center text-dark"></td>
+                                            <td class="center text-dark"></td>
+                                            <td class="center text-dark"></td>
+                                            <td class="center text-dark">{{ pbl.t1 }}
+                                        </tr>
+                                    {% endfor %}
+
                                     {% for cres in cre %}
 
 

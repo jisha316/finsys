@@ -14,27 +14,29 @@
             <div class="card radius-15">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-5"></div>
+                        <div class="col-md-3">
+                            <div class="d-flex">
+                                <input type="text" id="search" class="form-control" placeholder="Search.." autocomplete="off">
+                                <center><i class="fa fa-search form-control" style="width: 60px;"></i></center>
+                            </div>
+                        </div>
+                        <div class="col-md-4"></div>
                         <div class="col-md-3"></div>
                         <div class="btn-group col-md-2">
-                            <a href="{% url 'addvendor' %}" class="btn btn-outline-info" role="button">New</a>
-                            <button type="button"
-                                    class="btn btn-outline-info dropdown-toggle dropdown-toggle-split"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
+                            <a class="btn btn-outline-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                role="button">Filter By
+                            </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">All Vendors</a>
-                                <a class="dropdown-item" href="#">Active Vendors</a>
-                                <a class="dropdown-item" href="#">Inactive Vendors</a>
+                                <a class="dropdown-item" href="#">Active</a>
+                                <a class="dropdown-item" href="#">Inactive</a>
                                 <a class="dropdown-item" href="#">Custome View</a>
                             </div>
+                            <a href="{% url 'addvendor' %}" class="btn btn-outline-info" role="button">New</a>   
                         </div>
                     </div>
 
                     <div class="container-fluid">
-                        <table class="table table-responsive-md mt-4" id="tableID">
+                        <table class="table table-responsive-md mt-4" id="table">
                             <thead>
                             <tr>
                                 <th>NAME</th>
@@ -83,6 +85,19 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            var $rows = $('#table tr');
+            $('#search').keyup(function() {
+                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                
+                $rows.show().filter(function() {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(val);
+                }).hide();
+            });
+        </script>
+
     
     {% endif %}
 {% endblock %}

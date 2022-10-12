@@ -102,6 +102,16 @@
                     </div>
                     <div class="col-lg-4 bg-grey">
                         <div class="p-5">
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-1"><a href="{% url 'goeditexpense' expnce.expenseid %}" role="button" title="Edit">
+                                    <h5><i class="fa fa-edit"></i></h5></a>
+                                </div>
+                                <div class="col-md-2"><a href="{% url 'deleteexpense' expnce.expenseid %}" role="button" title="Delete">
+                                    <h5><i class="fa fa-trash"></i></h5></a>
+                                </div>
+                            </div> <hr>
                             <div class="d-flex justify-content-between mb-4">
                                 <h5 class="">Vendor</h5>
                                 <h6>{{ expnce.vendor }}</h6>
@@ -123,16 +133,6 @@
                                 <h6 class="">Note</h6>
                                 <h6>{{ expnce.note }}</h6>
                             </div> 
-                            <div>
-                                <center>
-                                    <a href="{% url 'goeditexpense' expnce.expenseid %}" class="btn btn-outline-info rounded-pill text-grey mt-3 mb-3" role="button">
-                                        Edit
-                                    </a>&nbsp;&nbsp;&nbsp;
-                                    <a href="{% url 'deleteexpense' expnce.expenseid %}" class="btn btn-outline-info rounded-pill text-grey mt-3 mb-3" role="button">
-                                        Delete
-                                    </a>
-                                </center> 
-                            </div>
                         </div>
                     </div>
                 </div>

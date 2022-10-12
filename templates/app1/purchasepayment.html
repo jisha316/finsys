@@ -5,67 +5,41 @@
         <div class="card radius-15">
             <div class="card-body">
                 <div class="card-title">
-                    <center><h2 class="mb-0" style="text-transform: uppercase;;">received payment</h2></center>
+                    <center><h2 class="mb-0">PAYMENT PAYABLE</h2></center>
                 </div>
                 <hr/>
             </div>
         </div>
-        <form action="paymentcreate2" method="post" class="post-form">
+        <form action="createpymnt" method="post" class="post-form">
             {% csrf_token %}
             <div class="card radius-15">
                 <div class="card-body">
                     <div id="invoice">
-
-                        <header>
-                            <!-- <div class="row mt-3">
-                                <div class="col">
-                                    <center><h2>Fin sYs</h2></center>
-                                </div>
-                            </div> -->
-                        </header>
                         <div class="row mt-5">
                             <div class="col-md-4">
-                                <label class="scol-form-label">Customer</label>
+                                <label class="scol-form-label">Vendor</label>
                                 <div class="d-flex">
-                                    <select name="customer" id="select" class="form-control" style="width: 95%;">
-                                        <option value="NIL" disabled selected>Select Customer</option>
-                                        {% for cust in vndr %}
-                                            <option value="{{ cust.firstname }} {{ cust.lastname }}">{{ cust.firstname }} {{ cust.lastname }}</option>
-                                            
+                                    <select name="vendor" id="select" class="form-control" style="width: 95%;">
+                                        <option value="NIL" disabled selected>Select Vendor</option>
+                                        {% for c in vndr %}
+                                            <option value="{{ c.firstname }} {{ c.lastname }}">{{ c.firstname }} {{ c.lastname }}</option>
                                         {% endfor %}
                                     </select>
-                                    <a href="{% url 'goaddcustpayment' %}">
+                                    <!-- <a href="{% url 'goaddcustpayment' %}">
                                         <button type="button" class="btn btn-outline-secondary ml-1">+</button>
-                                    </a>
+                                    </a> -->
                                 </div>
                             </div>
-                            <div class=" col-md-4">
-                                <label class="scol-form-label">Email</label><br>
-                                <input type="email" name="email" id="email" class="form-control" placeholder="Email">
-                            </div>
-                            <!-- <div class="col-md-4">
-                                <label class="scol-form-label">Find by invoice number</label><br>
-                                <input type="fbin" name="findinvoice" id="fbin" class="form-control">
-                            </div> -->
-                        </div>
-                        <div class="row">
+                            <div class="col-md-4"></div>
                             <div class="col-md-4">
                                 <label class="col-form-label">Payment Date</label>
-                                <input type="text" name="paymdate" value="{{ tod }}" class="form-control">
+                                <input type="date" name="paymentdate" id="date" class="form-control">
                             </div>
-                            <div class="col-md-8"></div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
-                                <label class="col-form-label">Reference No</label>
-                                <input type="text" name="ref" value="" class="form-control">
-                            </div>
-                            <div class="col-md-8"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
                                 <label class="col-form-label">Payment Method</label>
-                                <select name="pmethod" id="paymeth" onclick="showinp('newmethod', this)"
+                                <select name="paymentmethod" id="paymeth" onclick="showinp('newmethod', this)"
                                         class="form-control">
                                     <option id="newmth"></option>
                                     <option value="Cash">Cash</option>
@@ -74,12 +48,11 @@
                                     <option value="Add New">Add New</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4 mt-3">
                                 <label class="col-form-label">Deposit to</label>
                                 <div class="d-flex">
-                                    <select name="depto" id="" class="form-control" style="width: 95%;">
+                                    <select name="depositeto" id="" class="form-control" style="width: 95%;">
                                         {% for acc in accoun %}
                                             <option value="{{ acc.name }}">{{ acc.name }}</option>
                                         {% endfor %}
@@ -108,46 +81,43 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                                <input type="text" id="newmethod" onchange="addtemopt(this)" class="form-control"
-                                       style="display: none;">
-                            </div>
-                        </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3">
+                                <label class="col-form-label"></label>
+                                <input type="text" id="newmethod" onchange="addtemopt(this)" class="form-control" style="display: none;">
                             </div>
-                            <div class="col-md-4"></div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 mt-3"></div>
+                            <div class="col-md-4 mt-3"></div>
+                        </div>
+                        <div class="row mt-4" >
+                            <div class="col-md-4 mt-3" style="display: none;">
                                 <label class="col-form-label">Amount Recieved</label>
-                                <input type="number" onchange="showinnum('amre', this)" id="amtrcvd"
-                                       class="form-control"
-                                       name="amtreceived">
+                                <input type="number" onchange="showinnum('amre', this)" id="amtrcvd" class="form-control" name="amtreceived">
                             </div>
                         </div>
                         <div class="row mt-4 mb-4">
                             <div class="col-md-8"></div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" style="display: none;">
                                 <h5 class="text-grey">AMOUNT RECIEVED</h5>
                                 <h5 class="text-light" id="amre">0.00</h5>
                             </div>
                         </div>
                         <div class="row clearfix">
                             <div class="col-md-12 table-responsive-md">
-                                <table class="table table-bordered table-hover" id="tab_logic">
+                                <table class="table table-bordered table-hover" id="tab_logic" style="background-color: rgba(0,0,0,0.4);">
                                     <thead>
                                     <tr>
-                                        <th class="text-center"> #</th>
-                                        <th class="text-center"> Date</th>
-                                        <th class="text-center"> Invoice Number</th>
-                                        <th class="text-center"> Invoice Amount</th>
-                                        <th class="text-center"> Amount Due	</th>
-                                        <th class="text-center"> PAYMENT</th>
-
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">Date</th>
+                                        <th class="text-center">Bill Number</th>
+                                        <th class="text-center">Bill Amount</th>
+                                        <th class="text-center">Amount Due</th>
+                                        <th class="text-center">Payment</th>
                                     </tr>
                                     </thead>
-                                    <tbody id='invoicedata'>
-                                       
+                                    <tbody id='billdata'>
+
+                                    
                                     </tbody>
                                 </table>
                             </div>
@@ -155,20 +125,18 @@
                         <div class="row clearfix mt-4">
                             <div class="col-md-7"></div>
                             <div class="col-md-5 table-responsive-md">
-                                <table class="table table-bordered table-hover" id="tab_logic_total">
+                                <table class="table table-bordered table-hover" id="tab_logic_total" style="background-color: rgba(0,0,0,0.4);">
                                     <tbody>
                                     <tr>
                                         <th class="text-center">Amount to Apply</th>
-                                        <td class="text-center"><input type="number" name='amtapply' id="amtoapply"
-                                                                       placeholder='0.00'
-                                                                       class="form-control">
+                                        <td class="text-center"><input type="number" name='paymentamount' id="amtoapply"
+                                            placeholder='0.00' class="form-control">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th class="text-center">Amount to Credit</th>
                                         <td class="text-center"><input type="number" name='amtcredit' id="amtcredit"
-                                                                       placeholder='0.00'
-                                                                       class="form-control"></td>
+                                            placeholder='0.00' class="form-control"></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -200,31 +168,12 @@
             </div>
         </form>
     </div>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        function showinp(divId, element) {
-            if (element.value == 'Add New') {
-                document.getElementById(divId).style.display = 'block';
-            } else {
-                document.getElementById(divId).style.display = 'none';
-            }
-        }
-
-        
-
-        function addtemopt(element) {
-            var opt = document.getElementById('newmth');
-            if (element.value) {
-                opt.value = element.value;
-                opt.innerHTML = element.value;
-            } else {
-                pass
-            }
-        }
-
-
-        
+        $('#date').val(new Date().toJSON().slice(0,10));
     </script>
+
     <script>
         $("#select").change(function () {
             const select = $(this).val();  
@@ -237,43 +186,55 @@
                 },
                 success:function(response){
                     console.log(response)
-                    data = response.invitem
+                    data = response.billitm
                     
                     for (i=0;i<data.length;i++){
                         j=i;
+                        
                         $('#tab_logic tbody').append(
-
-                                `
-                             <tr id='addr1' >
-                                        <td>${i+1}</td>
-                                        <td><input type="text" name="date" id=""
-                                                   value="${data[i].date}" class="form-control"/>
-                                        </td>
-                                        <td><input type="text" name='estnum' id="" value="${data[i].bill_no}" 
-                                                   class="form-control"/></td>
-                                        <td><input type="text" name='inv_amount'
-                                            value="${data[i].grand_total}" id=""
-                                                   class="form-control qty" step="0" min="0"/></td>
-                                        <td><input type="number" name='due' id="openbal${i}"
-                                                value="${data[i].grand_total}"
-                                                   class="form-control price" step="0.00" min="0"/></td>
-                                        <td><input type="number" name='payment' onchange="addagain()" id="payment${i}"
-                                                   placeholder='0.00'
-                                                   class="form-control total" value="0"/></td>
-                                    </tr>
-                                    `
-                                
-                            )
-                            
-                            
-
-
+                            `
+                                <tr id='addr1' >
+                                    <td>${i+1}</td>
+                                    <td><input type="text" name="billdate[]" id="" value="${data[i].date}" class="form-control"/></td>
+                                    <td><input type="text" name='billno[]' id="" value="${data[i].bill_no}" class="form-control"/></td>
+                                    <td><input type="text" name='billamount[]' value="${data[i].grand_total}" id=""
+                                        class="form-control qty" step="0" min="0"/>
+                                    </td>
+                                    <td><input type="number" name='amountdue[]' id="openbal${i}" value="${data[i].balance_due}"
+                                        class="form-control price" step="0.00" min="0"/>
+                                    </td>
+                                    <td><input type="number" name='payment[]' onchange="addagain()" id="payment${i}" placeholder='0.00'
+                                        class="form-control total" value="0"/>
+                                    </td>
+                                </tr>
+                            `   
+                        )
                     }
-                    document.getElementById('email').value = data[0].email
+                    
                 }
-              
             });
         });
+    </script>
+
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script>
+        function showinp(divId, element) {
+            if (element.value == 'Add New') {
+                document.getElementById(divId).style.display = 'block';
+            } else {
+                document.getElementById(divId).style.display = 'none';
+            }
+        }
+
+        function addtemopt(element) {
+            var opt = document.getElementById('newmth');
+            if (element.value) {
+                opt.value = element.value;
+                opt.innerHTML = element.value;
+            } else {
+                pass
+            }
+        }
 
         function showinnum(divId, element) {
             if (element.value) {
@@ -936,5 +897,4 @@
 
         }
     </script>
-   
 {% endblock %}

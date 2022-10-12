@@ -1,4 +1,5 @@
 from email.headerregistry import Address
+from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -35,7 +36,6 @@ class company(models.Model):
     ctype = models.CharField(max_length=100)
     abt = models.CharField(max_length=100)
     paid = models.CharField(max_length=100)
-
 
 class customer(models.Model):
     customerid = models.AutoField(('CUSTID'), primary_key=True)
@@ -1201,6 +1201,7 @@ class purchasebill(models.Model):
     round_off = models.CharField(max_length=100,null=True)
     tax_amount = models.CharField(max_length=100,null=True)
     grand_total = models.CharField(max_length=100,null=True)
+    balance_due = models.CharField(max_length=100,null=True)
     note = models.CharField(max_length=255,null=True)
     file = models.FileField(upload_to='purchase/bill',default=None)
 
@@ -1238,8 +1239,24 @@ class purchase_expense(models.Model):
     note = models.CharField(max_length=255,null=True)
     file = models.FileField(upload_to='purchase/expense',default=None)
 
+class creditperiod(models.Model):
+    newperiod = models.IntegerField()
 
+class purchasepayment(models.Model):
+    pymntid = models.AutoField(('bid'), primary_key=True)
+    reference = models.IntegerField(default=1000)
+    vendor = models.CharField(max_length=100)
+    paymentdate = models.DateField(null=True)
+    paymentmethod = models.CharField(max_length=100,null=True)
+    depositeto = models.CharField(max_length=100)
+    paymentamount = models.CharField(max_length=100,null=True)
 
-
-
+class purchasepayment1(models.Model):
+    pymnt = models.ForeignKey(purchasepayment, on_delete=models.CASCADE,null=True)
+    billdate = models.DateField(null=True)
+    billno = models.CharField(max_length=100,null=True)
+    billamount = models.CharField(max_length=100,null=True)
+    amountdue = models.CharField(max_length=100,null=True)
+    payment = models.CharField(max_length=100,null=True)
+    
     

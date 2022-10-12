@@ -267,6 +267,7 @@ urlpatterns = [
 
     re_path(r'^get_data$', views.getdata, name='getdata'),
     re_path(r'^get_data1$', views.getdata1, name='getdata1'),
+    # re_path(r'^get_data3$', views.getdata3, name='getdata3'),
     re_path(r'^get_item$', views.getitems, name='getitems'),
     re_path(r'^getbalan$', views.getbalan, name='getbalan'),
     re_path(r'^getinvpro$', views.getinvpro, name='getinvpro'),
@@ -397,5 +398,19 @@ urlpatterns = [
     re_path(r'^goeditexpense/(?P<id>\d+)$',views.goeditexpense,name='goeditexpense'),
     re_path(r'^goeditexpense/editexpense/(?P<id>\d+)$',views.editexpense,name='editexpense'),
     re_path(r'^deleteexpense/(?P<id>\d+)$', views.deleteexpense, name='deleteexpense'),
+
+    re_path(r'^credit_period$', views.credit_period, name='credit_period'),
+    re_path(r'^credit_period1$', views.credit_period1, name='credit_period1'),
+    re_path(r'^credit_period2$', views.credit_period2, name='credit_period2'),
+
+    re_path(r'^porder_draft$', views.porder_draft, name='porder_draft'),
+    re_path(r'^porder_billed$', views.porder_billed, name='porder_billed'),
+    re_path(r'^porder_approved$', views.porder_approved, name='porder_approved'),
+    re_path(r'^bill_draft$', views.bill_draft, name='bill_draft'),
+
+    re_path(r'^gopayment$', views.gopayment, name='gopayment'),
+    re_path(r'^createpymnt$', views.createpymnt, name='createpymnt'),
+    re_path(r'^getbilldata$', views.getbilldata, name='getbilldata'),
+    
 
 ]

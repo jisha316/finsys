@@ -71,9 +71,7 @@
                                 <div class="d-flex">
                                     <input name="" type="number" class="form-control" placeholder="1000">
                                     <a class="form-control" data-target="#porderno" data-toggle="modal" style="width: 60px; cursor: pointer;"><center><i class="fa fa-gear"></i></center></i></a>
-                                </div>
-                                
-                                
+                                </div>    
                             </div>
                         </div>
                         <hr>
@@ -206,13 +204,19 @@
                             </div>
                             <div class="col-md-3 mt-2">
                                 <label for="">Credit Period</label>
-                                <select class="custom-select" name="credit_period" id="termadd" onclick="showinp('newtrm', this)">
-                                    <option selected id="trmopt"></option>
-                                    <option value="0">Due on Receipt</option>
-                                    <option value="15">NET15</option>
-                                    <option value="30">NET30</option>
-                                    <option value="60">NET60</option>
-                                  </select>
+                                <div class="d-flex">
+                                    <select class="custom-select" name="credit_period" id="termadd" onclick="showinp('newtrm', this)">
+                                        <option selected id="trmopt"></option>
+                                        <option value="0">Due on Receipt</option>
+                                        <option value="15">NET 15</option>
+                                        <option value="30">NET 30</option>
+                                        <option value="60">NET 60</option>
+                                        {% for pd in cpd %}
+                                            <option value="{{ pd.newperiod }}">NET {{ pd.newperiod }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <a class="btn btn-outline-secondary ml-1" data-target="#crperiod" data-toggle="modal">+</a>
+                                </div> 
                             </div>
                             <div class="col-md-3 mt-2">
                                 <label>Due Date</label>
@@ -407,6 +411,13 @@
                                         </div>
                                         <div class="col-sm-4 m-0 p-0"></div>
                                     </div><hr>
+                                    <div class="row container-fluid  p-2 m-0" style="display: none;">
+                                        <div class="col-sm-4 mt-2"><label for="a" class="text-center">Balance Due</label></div>
+                                        <div class="col-sm-8 mt-2"><input type="number" name='balance_due' id="due" placeholder="0" step="any" 
+                                            class="form-control" readonly>
+                                        </div>
+                                        <div class="col-sm-4 m-0 p-0"></div>
+                                    </div>
                                     <div class="row container-fluid  p-2 m-0">
                                         <div class="col-sm-4 mt-2"><label for="a" class="text-center">Grand Total</label></div>
                                         <div class="col-sm-8 mt-2"><input type="number" name='grand_total' id="grandtotal" placeholder="0" step="any" 
@@ -440,6 +451,35 @@
                         </div>
                     {% endif %}
                 </form>
+
+                <div class="modal fade" id="crperiod">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="background-color: #213b52;">
+                            <div class="modal-header">
+                                <h5 class="m-3">New Credit Period</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card p-3 m-3">
+                                    <form action="{% url 'credit_period' %}" method="post" autocomplete="off">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-2 mt-2"></div>
+                                            <div class="col-md-5 mt-2">
+                                                <input type="number" name="newperiod" class="form-control">
+                                            </div>
+                                            <div class="col-md-2 mt-2">
+                                                <button class="btn btn-outline-info text-grey mb-3" type="submit">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>  
+                                </div>
+                            </div>
+                        </div>   
+                    </div>
+                </div> 
 
                 <div class="modal fade" id="porderno">
                     <div class="modal-dialog">
@@ -1624,14 +1664,16 @@
             tcs=0
     
             tcs =a/100 * total
+            let z=Math.round(tcs)
             disc0=discount
             
             var amount =taxamount + total + tcs 
             let x =Math.round(amount)
             let y =Math.round(x-disc0)
             
-            $('#tcs_amount').val(((a/100) *total).toFixed(2));
+            $('#tcs_amount').val((z).toFixed(2));
             $('#grandtotal').val((y).toFixed(2));
+            $('#due').val((y).toFixed(2));
             $('#round_off').val((y).toFixed(2));   
 
             test()
