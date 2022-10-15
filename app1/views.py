@@ -8,9 +8,9 @@ from datetime import datetime, date, timedelta
 from .models import advancepayment, paydowncreditcard, salesrecpts, timeact, timeactsale, Cheqs, suplrcredit, addac, \
     bills, invoice, expences, payment, credit, delayedcharge, estimate, service, noninventory, bundle, employee, \
     payslip, inventory, customer, supplier, company, accounts, ProductModel, ItemModel, accountype, \
-    expenseaccount, incomeaccount, accounts1, recon1, recordpay, addtax1, bankstatement, customize, vendor, itemtable, \
-    purchaseorder , porder_item , bill_item, purchasebill, purchase_expense, creditperiod, purchasepayment,purchasepayment1
+    expenseaccount, incomeaccount, accounts1, recon1, recordpay, addtax1, bankstatement, customize
 
+from .models import *
 from django.contrib.auth.models import auth, User
 from django.contrib import messages
 from django.db.models import Sum, Q
@@ -15605,6 +15605,8 @@ def accpayables(request):
             'payee').annotate(t1=Sum('grandtotal'))
         tot = expences.objects.filter(
             cid=cmp1).all().aggregate(t2=Sum('grandtotal'))
+        tot6 = purchasebill.objects.filter(
+            cid=cmp1).all().aggregate(t2=Sum('grand_total'))
         tot1 = suplrcredit.objects.filter(
             cid=cmp1).all().aggregate(t2=Sum('creditamount'))
         tot2 = bills.objects.filter(
@@ -15614,7 +15616,7 @@ def accpayables(request):
         tot4 = bills.objects.filter(
             cid=cmp1, payornot='openbalance').all().aggregate(t2=Sum('grandtotal'))
         context = {'expence': ex, 'cmp1': cmp1, 'tot': tot, 'tot1': tot1, 'cre': cre, 'op': op, 'bi': bi, 'bi1': bi1,
-                   'tot2': tot2, 'tot3': tot3, 'tot4': tot4,'purchasebill':pbl}
+                   'tot2': tot2, 'tot3': tot3, 'tot4': tot4,'pbl':pbl,'tot6': tot6}
         return render(request, 'app1/accpayables.html', context)
     except:
         return redirect('godash')
@@ -15649,7 +15651,7 @@ def accpayables1(request):
             return redirect('accpayables')
         ex = expences.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).values('payee').annotate(
             t1=Sum('grandtotal'))
-        pbl = purchasebill.objects.filter(cid=cmp1,paymdate__gte=fromdate, paymdate__lte=todate).values('vendor_name').annotate(
+        pbl = purchasebill.objects.filter(cid=cmp1, date__gte=fromdate, date__lte=todate).values('vendor_name').annotate(
             t1=Sum('grand_total'))
         cre = suplrcredit.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).values(
             'supplier').annotate(t1=Sum('creditamount'))
@@ -15661,6 +15663,8 @@ def accpayables1(request):
             'payee').annotate(t1=Sum('grandtotal'))
         tot = expences.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).aggregate(
             t2=Sum('grandtotal'))
+        tot6 = purchasebill.objects.filter(cid=cmp1, date__gte=fromdate, date__lte=todate).aggregate(
+            t2=Sum('grand_total'))
         tot1 = suplrcredit.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).aggregate(
             t2=Sum('creditamount'))
         tot2 = bills.objects.filter(cid=cmp1, payornot='debit', paymdate__gte=fromdate, paymdate__lte=todate).aggregate(
@@ -15670,7 +15674,7 @@ def accpayables1(request):
         tot4 = bills.objects.filter(cid=cmp1, payornot='openbalance', paymdate__gte=fromdate,
                                     paymdate__lte=todate).aggregate(t2=Sum('grandtotal'))
         context = {'expence': ex, 'cmp1': cmp1, 'tot': tot, 'tot1': tot1, 'cre': cre, 'op': op, 'bi': bi, 'bi1': bi1,
-                   'tot2': tot2, 'tot3': tot3, 'tot4': tot4,'purchasebill':pbl}
+                   'tot2': tot2, 'tot3': tot3, 'tot4': tot4,'pbl':pbl,'tot6': tot6}
         return render(request, 'app1/accpayables.html', context)
     except:
         return redirect('accpayables')
@@ -26257,6 +26261,7 @@ def createbill(request):
             round_off=request.POST['round_off']
             grand_total=request.POST['grand_total']
             balance_due=request.POST['balance_due']
+            amtrecvd=request.POST['amtrecvd']
             note=request.POST['note']
             file=request.POST['file']
 
@@ -26267,7 +26272,7 @@ def createbill(request):
                                     date=date,deliver_date=deliver_dt,
                                     credit_period=credit_period,due_date=due_date,sub_total=sub_total,discount=discount,sgst=sgst,
                                     cgst=cgst,igst=igst,tax_amount=tax_amount,tcs=tcs,tcs_amount=tcs_amount,round_off=round_off,
-                                    grand_total=grand_total,balance_due=balance_due,note=note,file=file)
+                                    grand_total=grand_total,balance_due=balance_due,amtrecvd=amtrecvd,note=note,file=file,cid=cmp1)
             billed.save()
             billed.bill_no = int(billed.bill_no) + billed.billid
             billed.save()
@@ -26653,8 +26658,19 @@ def bill_draft(request):
     pbill = purchasebill.objects.filter(status='Draft').all()
     return render(request,'app1/billing.html',{'cmp1':cmp1,'pbill':pbill})
 
-@login_required(login_url='regcomp')
 def gopayment(request):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        py = purchasepayment.objects.all()
+        return render(request,'app1/gopayment_pay.html',{'cmp1': cmp1,'py':py})
+    return redirect('/') 
+
+@login_required(login_url='regcomp')
+def addpaymentpay(request):
     if 'uid' in request.session:
         if request.session.has_key('uid'):
             uid = request.session['uid']
@@ -26687,66 +26703,80 @@ def createpymnt(request):
             return redirect('/')
         cmp1 = company.objects.get(id=request.session['uid'])
         if request.method == 'POST':
-            reference= '1000'
-            vendor = request.POST['vendor']
-            paymentdate = request.POST['paymentdate']
-            paymentmethod=request.POST['paymentmethod']
-            depositeto=request.POST['depositeto']
-            paymentamount=request.POST['paymentamount']
-
-            pymnt1 = purchasepayment(vendor=vendor,paymentdate=paymentdate,paymentmethod=paymentmethod,depositeto=depositeto, paymentamount= paymentamount)
-
+            reference = '1000'
+            pymnt1 = purchasepayment(vendor = request.POST['vendor'],
+                                    paymentdate = request.POST['paymentdate'],
+                                    paymentmethod=request.POST['paymentmethod'],
+                                    depositeto=request.POST['depto'],
+                                    paymentamount=request.POST['paymentamount'])
             pymnt1.save()
             pymnt1.reference = int(pymnt1.reference) + pymnt1.pymntid
             pymnt1.save()
-
-            paymentamount = float(request.POST['paymentamount'])
-            accont = accounts1.objects.get(
-                name='Account Receivable(Debtors)', cid=cmp1)
-            accont.balance = accont.balance - paymentamount
-            accont.save()
-            depositeto = request.POST['depositeto']
-            try:
-                if accounts1.objects.get(name=depositeto, cid=cmp1):
-                    print(depositeto)
-                    acconut = accounts1.objects.get(name=depositeto, cid=cmp1)
-                    acconut.balance = acconut.balance + paymentamount
-                    acconut.save()
-            except:
-                pass
-            try:
-                if accounts.objects.get(name=depositeto, cid=cmp1):
-                    acconut = accounts.objects.get(name=depositeto, cid=cmp1)
-                    acconut.balance = acconut.balance + paymentamount
-                    acconut.save()
-            except:
-                pass
 
             billdate = request.POST.getlist("billdate[]")
             billno = request.POST.getlist("billno[]")
             billamount = request.POST.getlist("billamount[]")
             amountdue = request.POST.getlist("amountdue[]")
-            payment = request.POST.getlist("payment[]")
+            payments = request.POST.getlist("payment[]")
 
             pyitm=purchasepayment.objects.get(pymntid=pymnt1.pymntid)
 
-            if len(billdate)==len(billno)==len(billamount)==len(amountdue)==len(payment) and billdate and billno and billamount and amountdue and payment :
-                mapped=zip(billdate,billno,billamount,amountdue,payment)
+            if len(billdate)==len(billno)==len(billamount)==len(amountdue)==len(payments) and billdate and billno and billamount and amountdue and payments :
+                mapped=zip(billdate,billno,billamount,amountdue,payments)
                 mapped=list(mapped)
                 for ele in mapped:
                     billAdd,created = purchasepayment1.objects.get_or_create(billdate = ele[0],billno=ele[1],billamount=ele[2],
-                    amountdue=ele[3],payment=ele[4],pymnt=pyitm)
+                    amountdue=ele[3],payments=ele[4],pymnt=pyitm)
 
-                try:
-                    if  purchasebill.objects.get(bill_no=billno[0]) and billno[0] != 'undefined':
+            paymentamount = float(request.POST['paymentamount'])
+            accont = accounts1.objects.get(
+                name='Account Receivable(Debtors)',cid=cmp1)
+            accont.balance = accont.balance - paymentamount
+            accont.save()
+            depositeto = request.POST['depto']
+            try:
+                if accounts1.objects.get(name=depositeto,cid=cmp1):
+                    print(depositeto)
+                    acconut = accounts1.objects.get(name=depositeto)
+                    acconut.balance = acconut.balance + paymentamount
+                    acconut.save()
+            except:
+                pass
+            try:
+                if accounts.objects.get(name=depositeto,cid=cmp1):
+                    acconut = accounts.objects.get(name=depositeto, cid=cmp1)
+                    acconut.balance = acconut.balance + paymentamount
+                    acconut.save()
+            except:
+                pass
+            # 
+            pymtbill = purchasepayment1.objects.filter()               
+            try:
+                for i in pymtbill:
+                    if purchasebill.objects.get(bill_no=i.billno) and i.billno != 'undefined':
                         print(depositeto)
-                        bll = purchasebill.objects.get(bill_no=billno[0])
-                        bll.paymentamount=int(bll.paymentamount) + int(payment)
-                        bll.balance_due = float(amountdue) - float(payment)
-                        bll.save()
-                except:
-                    pass
-
+                        pbl = purchasebill.objects.get(bill_no=i.billno)
+                        pbl.amtrecvd = int(pbl.amtrecvd) + int(i.payments)
+                        pbl.balance_due = float(i.amountdue) - float(i.payments)
+                        # if pbl.balance_due == 0.0:
+                        #     pbl.status = "Paid"
+                        pbl.save()
+            except:
+                pass
             return redirect('gopayment')
-        return render(request,'app1/purchasepayment.html',{'cmp1': cmp1})
+        else:
+            return redirect('gopayment')
     return redirect('/') 
+
+@login_required(login_url='regcomp')
+def viewpaymentpayable(request,id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+        paymt=purchasepayment.objects.get(pymntid=id)
+        py = purchasepayment1.objects.all().filter(pymnt=id)
+        return render(request,'app1/viewpaymentpay.html',{'cmp1': cmp1,'paymt':paymt,'py':py})
+    return redirect('gopurchaseorder')

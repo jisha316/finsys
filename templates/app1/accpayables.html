@@ -159,16 +159,16 @@
 
                                     {% endfor %}
 
-                                    {% for pbl in purchasebill %}
+                                    {% for pb in pbl %}
                                         <tr>
-                                            <td class="center text-dark">{{ pbl.vendor_name }}</td>
-                                            <td class="center text-dark">Bill Balance</td>
-                                            <td class="center text-dark">{{ pbl.t1 }}</td>
+                                            <td class="center text-dark">{{ pb.vendor_name }}</td>
+                                            <td class="center text-dark">Bill Balance Due</td>
+                                            <td class="center text-dark">{{ pb.t1 }}</td>
                                             <td class="center text-dark"></td>
                                             <td class="center text-dark"></td>
                                             <td class="center text-dark"></td>
                                             <td class="center text-dark"></td>
-                                            <td class="center text-dark">{{ pbl.t1 }}
+                                            <td class="center text-dark">{{ pb.t1 }}
                                         </tr>
                                     {% endfor %}
 
@@ -266,6 +266,7 @@
 
                                             var t1 = parseFloat('{{ tot.t2 }}');
 
+                                            var t6 = parseFloat('{{ tot6.t2 }}');
 
                                             var t2 = parseFloat('{{ tot1.t2 }}');
 
@@ -275,11 +276,15 @@
 
                                             var t5 = parseFloat('{{ tot4.t2 }}');
 
+                                            
+
 
                                             if (Number.isNaN(t1)) {
                                                 t1 = 0;
                                             }
-
+                                            if (Number.isNaN(t6)) {
+                                                t6 = 0;
+                                            }
                                             if (Number.isNaN(t2)) {
                                                 t2 = 0;
                                             }
@@ -292,9 +297,10 @@
                                             if (Number.isNaN(t5)) {
                                                 t5 = 0;
                                             }
+                                            
 
 
-                                            var t = (t1 - t2 - t3 - t4 + t5);
+                                            var t = (t1 + t6 - t2 - t3 - t4 + t5);
 
 
                                             document.getElementById('t1').innerHTML = "&#8377;" + t

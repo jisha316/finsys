@@ -409,8 +409,11 @@ urlpatterns = [
     re_path(r'^bill_draft$', views.bill_draft, name='bill_draft'),
 
     re_path(r'^gopayment$', views.gopayment, name='gopayment'),
+    re_path(r'^addpaymentpay$', views.addpaymentpay, name='addpaymentpay'),
+
     re_path(r'^createpymnt$', views.createpymnt, name='createpymnt'),
     re_path(r'^getbilldata$', views.getbilldata, name='getbilldata'),
+    re_path(r'^viewpaymentpayable/(?P<id>\d+)$', views.viewpaymentpayable, name='viewpaymentpayable'),
     
 
 ]

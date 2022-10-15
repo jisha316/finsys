@@ -1178,6 +1178,7 @@ class porder_item(models.Model):
 
 class purchasebill(models.Model):
     billid = models.AutoField(('bid'), primary_key=True)
+    cid = models.ForeignKey(company, on_delete=models.CASCADE,null=True)
     vendor_name = models.CharField(max_length=100)
     billing_address = models.TextField()
     bill_no = models.IntegerField(default=1000)
@@ -1202,6 +1203,7 @@ class purchasebill(models.Model):
     tax_amount = models.CharField(max_length=100,null=True)
     grand_total = models.CharField(max_length=100,null=True)
     balance_due = models.CharField(max_length=100,null=True)
+    amtrecvd = models.CharField(max_length=100,null=True)
     note = models.CharField(max_length=255,null=True)
     file = models.FileField(upload_to='purchase/bill',default=None)
 
@@ -1243,7 +1245,7 @@ class creditperiod(models.Model):
     newperiod = models.IntegerField()
 
 class purchasepayment(models.Model):
-    pymntid = models.AutoField(('bid'), primary_key=True)
+    pymntid = models.AutoField(('pyid'), primary_key=True)
     reference = models.IntegerField(default=1000)
     vendor = models.CharField(max_length=100)
     paymentdate = models.DateField(null=True)
@@ -1257,6 +1259,6 @@ class purchasepayment1(models.Model):
     billno = models.CharField(max_length=100,null=True)
     billamount = models.CharField(max_length=100,null=True)
     amountdue = models.CharField(max_length=100,null=True)
-    payment = models.CharField(max_length=100,null=True)
+    payments = models.CharField(max_length=100,null=True)
     
     
